@@ -20,6 +20,6 @@
     "titleBar.inactiveForeground": "#e7e7e799"
   },
   "peacock.color": "#0f2310",
-  "conventionalCommits.scopes": ["config", "swagger"],
+  "conventionalCommits.scopes": ["config", "swagger", "decorators"],
   "cSpell.language": "en,es-ES"
 }
