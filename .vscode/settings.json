@@ -19,5 +19,6 @@
     "titleBar.inactiveBackground": "#0f231099",
     "titleBar.inactiveForeground": "#e7e7e799"
   },
-  "peacock.color": "#0f2310"
+  "peacock.color": "#0f2310",
+  "conventionalCommits.scopes": ["config"]
 }
