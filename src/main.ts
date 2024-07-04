@@ -1,10 +1,29 @@
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  await app.listen(3000);
+  app.setGlobalPrefix('api/v3');
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type, Accept',
+  });
+
+  if (process.env.NODE_ENV === 'development') {
+    const config = new DocumentBuilder()
+      .setTitle('X-NOM-035')
+      .setDescription('Documentación de la API de X-NOM-035, versión 3.0.0')
+      .setVersion('1.0')
+      .addTag('cats')
+      .build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api/v3/swagger', app, document);
+  }
+
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
