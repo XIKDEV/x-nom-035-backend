@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
+import { HttpExceptionsFilter, nodeEnv } from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,7 +14,9 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Accept',
   });
 
-  if (process.env.NODE_ENV === 'development') {
+  app.useGlobalFilters(new HttpExceptionsFilter());
+
+  if (process.env.NODE_ENV === nodeEnv.development) {
     const config = new DocumentBuilder()
       .setTitle('X-NOM-035')
       .setDescription('Documentación de la API de X-NOM-035, versión 3.0.0')
