@@ -30,3 +30,10 @@ export const statusCodes = {
   unprocessableEntity: 422,
   internalServerError: 500,
 };
+
+export const apiMethods = {
+  get: 'Get',
+  post: 'Post',
+  delete: 'Delete',
+  patch: 'Patch',
+};

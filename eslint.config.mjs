@@ -82,7 +82,11 @@ export default [
   {
     name: 'prettier',
     rules: {
-      'prettier/prettier': ['error', {}, { usePrettierrc: true }],
+      'prettier/prettier': [
+        'error',
+        {},
+        { usePrettierrc: true, endOfLine: 'off' },
+      ],
     },
   },
   configPrettier,
