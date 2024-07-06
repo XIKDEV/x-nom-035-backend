@@ -128,3 +128,4 @@ dist
 
 .env
 bun.lockb
+pnpm-lock.yaml

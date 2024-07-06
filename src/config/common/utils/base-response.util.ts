@@ -1,8 +1,8 @@
 import { IBaseResponse } from '../interfaces';
 
-export const baseResponse = ({
+export const baseResponse = <T>({
   success = true,
   data = {},
   info = {},
   message = 'Operación realizada correctamente',
-}: IBaseResponse) => ({ success, data, info, message });
+}: IBaseResponse<T>) => ({ success, data, info, message });
