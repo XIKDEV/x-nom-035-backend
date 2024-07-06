@@ -21,7 +21,6 @@ async function bootstrap() {
       .setTitle('X-NOM-035')
       .setDescription('Documentación de la API de X-NOM-035, versión 3.0.0')
       .setVersion('1.0')
-      .addTag('cats')
       .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api/v3/swagger', app, document);

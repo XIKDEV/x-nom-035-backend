@@ -1,0 +1,203 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cities {
+  id           Int            @id @default(autoincrement())
+  name         String?        @db.VarChar(100)
+  active       Boolean?       @default(true)
+  createdAt    DateTime?      @default(now()) @map("created_at") @db.Date
+  updatedAt    DateTime?      @map("updated_at") @db.Date
+  enterprises  Enterprises[]
+  statesCities StatesCities[]
+
+  @@map("cities")
+}
+
+model Contrats {
+  id             Int         @id @default(autoincrement())
+  title          String      @db.VarChar(150)
+  employeesCount Int         @map("employees_count")
+  idTypeTest     Int         @map("id_type_test")
+  idEnterprise   Int         @map("id_enterprise")
+  startDate      DateTime    @map("start_date") @db.Date
+  endDate        DateTime?   @map("end_date") @db.Date
+  url            String?     @db.VarChar(255)
+  active         Boolean?    @default(true)
+  createdAt      DateTime?   @default(dbgenerated("timezone('America/Tijuana'::text, now())")) @map("created_at") @db.Date
+  updatedAt      DateTime?   @map("updated_at") @db.Date
+  typeTest       TypeTest    @relation(fields: [idTypeTest], references: [id], onUpdate: Restrict)
+  enterprises    Enterprises @relation(fields: [idEnterprise], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_id_enterprise")
+
+  @@map("contrats")
+}
+
+model Enterprises {
+  id                  Int        @id @default(autoincrement())
+  businessName        String     @map("business_name") @db.VarChar(100)
+  comercialName       String     @map("comercial_name") @db.VarChar(100)
+  legalRepresentative String     @map("legal_representative") @db.VarChar(100)
+  rfc                 String     @map("RFC") @db.VarChar(100)
+  street              String     @db.VarChar(100)
+  exteriorNumber      String     @map("exterior_number") @db.VarChar(100)
+  interiorNumber      String     @map("interior_number") @db.VarChar(100)
+  suburb              String     @db.VarChar(100)
+  postalCode          Int        @map("postal_code")
+  country             String     @db.VarChar(100)
+  enterpriseType      String     @map("enterprise_type") @db.VarChar(100)
+  turnEnterprise      String     @map("turn_enterprise") @db.VarChar(100)
+  tellphone           String     @db.VarChar(100)
+  email               String     @db.VarChar(100)
+  image               String?    @db.VarChar(250)
+  active              Boolean?   @default(true)
+  createdAt           DateTime?  @default(now()) @map("created_at") @db.Date
+  updatedAt           DateTime?  @map("updated_at") @db.Date
+  idState             Int?       @map("id_state")
+  idCity              Int?       @map("id_city")
+  contrats            Contrats[]
+  cities              Cities?    @relation(fields: [idCity], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_city")
+  states              States?    @relation(fields: [idState], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_state")
+  users               Users[]
+
+  @@map("enterprises")
+}
+
+model ModuleTypes {
+  id        Int       @id @default(autoincrement())
+  type      String?   @db.VarChar(255)
+  active    Boolean?  @default(true)
+  createdAt DateTime? @default(now()) @map("created_at") @db.Date
+  updatedAt DateTime? @map("updated_at") @db.Date
+  modules   Modules[]
+
+  @@map("module_types")
+}
+
+model Modules {
+  id           Int            @id @default(autoincrement())
+  module       String         @db.VarChar(100)
+  description  String?        @db.VarChar(100)
+  route        String?        @db.VarChar(100)
+  icon         String?        @db.VarChar(100)
+  idType       Int?           @map("id_type")
+  active       Boolean?       @default(true)
+  createdAt    DateTime?      @default(now()) @map("created_at") @db.Date
+  updatedAt    DateTime?      @map("updated_at") @db.Date
+  component    String?        @db.VarChar(255)
+  menuOption   String?        @map("menu_option") @db.VarChar(255)
+  moduleTypes  ModuleTypes?   @relation(fields: [idType], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_type")
+  rolesModules RolesModules[]
+
+  @@map("modules")
+}
+
+model Permissions {
+  id                      Int                       @id @default(autoincrement())
+  permission              String                    @db.VarChar(100)
+  description             String?                   @db.VarChar(100)
+  active                  Boolean?                  @default(true)
+  createdAt               DateTime?                 @default(now()) @map("created_at") @db.Date
+  updatedAt               DateTime?                 @map("updated_at") @db.Date
+  rolesModulesPermissions RolesModulesPermissions[]
+
+  @@map("permissions")
+}
+
+model Roles {
+  id           Int            @id @default(autoincrement())
+  role         String         @db.VarChar(100)
+  description  String?        @db.VarChar(100)
+  active       Boolean?       @default(true)
+  createdAt    DateTime?      @default(now()) @map("created_at") @db.Date
+  updatedAt    DateTime?      @map("updated_at") @db.Date
+  rolesModules RolesModules[]
+  users        Users[]
+
+  @@map("roles")
+}
+
+model RolesModules {
+  id                      Int                       @id @default(autoincrement())
+  idRole                  Int                       @map("id_role")
+  idModule                Int                       @map("id_module")
+  active                  Boolean?                  @default(true)
+  createdAt               DateTime?                 @default(now()) @map("created_at") @db.Date
+  updatedAt               DateTime?                 @map("updated_at") @db.Date
+  modules                 Modules                   @relation(fields: [idModule], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_modulem")
+  roles                   Roles                     @relation(fields: [idRole], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_rolem")
+  rolesModulesPermissions RolesModulesPermissions[]
+
+  @@map("roles_modules")
+}
+
+model RolesModulesPermissions {
+  id           Int          @id @default(autoincrement())
+  idRoleModule Int          @map("id_role_module")
+  idPermission Int          @map("id_permission")
+  active       Boolean?     @default(true)
+  createdAt    DateTime?    @default(now()) @map("created_at") @db.Date
+  updatedAt    DateTime?    @map("updated_at") @db.Date
+  rolesModules RolesModules @relation(fields: [idRoleModule], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_role_module")
+  permissions  Permissions  @relation(fields: [idPermission], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_role_module_permission")
+
+  @@map("roles_modules_permissions")
+}
+
+model States {
+  id           Int            @id @default(autoincrement())
+  code         String?        @db.Char(3)
+  name         String?        @db.VarChar(100)
+  active       Boolean?       @default(true)
+  createdAt    DateTime?      @default(now()) @map("created_at") @db.Date
+  updatedAt    DateTime?      @map("updated_at") @db.Date
+  enterprises  Enterprises[]
+  statesCities StatesCities[]
+
+  @@map("states")
+}
+
+model StatesCities {
+  id        Int       @id @default(autoincrement())
+  idCity    Int?      @map("id_city")
+  idState   Int?      @map("id_state")
+  active    Boolean?  @default(true)
+  createdAt DateTime? @default(now()) @map("created_at") @db.Date
+  updatedAt DateTime? @map("updated_at") @db.Date
+  cities    Cities?   @relation(fields: [idCity], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_city")
+  states    States?   @relation(fields: [idState], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_state")
+
+  @@map("states_cities")
+}
+
+model TypeTest {
+  id        Int        @id @default(autoincrement())
+  name      String?    @db.VarChar(50)
+  active    Boolean?   @default(true)
+  createdAt DateTime?  @default(dbgenerated("timezone('America/Tijuana'::text, now())")) @map("created_at") @db.Date
+  updatedAt DateTime?  @map("updated_at") @db.Date
+  contrats  Contrats[]
+
+  @@map("type_test")
+}
+
+model Users {
+  id           Int          @id @default(autoincrement())
+  name         String       @db.VarChar(100)
+  lastname     String       @db.VarChar(100)
+  email        String       @db.VarChar(100)
+  password     String       @db.VarChar(255)
+  idRole       Int?         @map("id_role")
+  active       Boolean?     @default(true)
+  createdAt    DateTime?    @default(now()) @map("created_at") @db.Date
+  updatedAt    DateTime?    @map("updated_at") @db.Date
+  idEnterprise Int?         @map("id_enterprise")
+  roles        Roles?       @relation(fields: [idRole], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_role_user")
+  enterprises  Enterprises? @relation(fields: [idEnterprise], references: [id], onDelete: Restrict, onUpdate: Restrict)
+
+  @@map("users")
+}
