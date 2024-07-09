@@ -60,3 +60,21 @@ export const typeValidateDtoMigration = ({
   isOptional: IsOptional(options),
   isIn: IsIn(num as number[] | string[], options),
 });
+
+export const fieldsDto = {
+  email: 'email',
+  password: 'password',
+};
+
+export const typeDto = {
+  isString: 'isString',
+  isInt: 'isInt',
+  isEmail: 'isEmail',
+  isNumber: 'isNumber',
+};
+
+export const dataType = {
+  string: 'string',
+  number: 'number',
+  boolean: 'boolean',
+};

@@ -59,7 +59,6 @@ export interface IBaseOptions {
   message?: string;
   transform?: boolean;
   type?: string;
-  typeToAnswer?: boolean;
 }
 
 export interface IDtoDecoratorsOptions {
