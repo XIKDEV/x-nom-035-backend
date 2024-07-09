@@ -26,6 +26,7 @@ export const Swagger = ({
   restApi,
   link = '',
   apiConsumes = constantsApiConsumes.json,
+  hadSecurity: _ = false,
 }: ISwaggerResponseOptions) => {
   const restOptions: IMethodsDecoratorSwagger = {
     Get,
@@ -65,5 +66,6 @@ export const Swagger = ({
     }),
     ApiConsumes(apiConsumes),
     restOptions[restApi as keyof IMethodsDecoratorSwagger](link),
+    // hadSecurity && UseGuards(JwtAuthGuard),
   );
 };

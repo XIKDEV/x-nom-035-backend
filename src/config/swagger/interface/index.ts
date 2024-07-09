@@ -11,7 +11,10 @@ export interface ISwaggerOptions {
   items?: ISwaggerItems;
 }
 
-export interface ISwaggerResponseOptions {
+export interface IGuardSwagger {
+  hadSecurity?: boolean;
+}
+export interface ISwaggerResponseOptions extends IGuardSwagger {
   module?: string;
   link?: string;
   restApi?: string;
@@ -30,4 +33,8 @@ export interface IMethodsDecoratorSwagger {
   Post: (paths: string | string[]) => MethodDecorator;
   Patch: (paths: string | string[]) => MethodDecorator;
   Delete: (paths: string | string[]) => MethodDecorator;
+}
+
+export interface ITagSwagger extends IGuardSwagger {
+  tag: string;
 }

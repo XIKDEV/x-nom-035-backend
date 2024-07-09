@@ -1,19 +1,20 @@
-import { Body, Controller } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Body } from '@nestjs/common';
 
-import { apiMethods, Swagger } from '@/config';
+import { apiMethods, GuardSwagger, Swagger } from '@/config';
 
 import { LoginDto } from '../dtos';
 import { AuthService } from '../services';
 
-@Controller('auth')
-@ApiTags('Login')
+@GuardSwagger({
+  tag: 'auth',
+  hadSecurity: false,
+})
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Swagger({
-    restApi: apiMethods.post,
     link: 'login',
+    restApi: apiMethods.post,
   })
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);

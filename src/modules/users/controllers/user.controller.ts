@@ -1,12 +1,10 @@
-import { Controller } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-
-import { apiMethods, Swagger } from '@/config';
+import { apiMethods, GuardSwagger, Swagger } from '@/config/';
 
 import { UserService } from '../services';
 
-@Controller('users')
-@ApiTags('users')
+@GuardSwagger({
+  tag: 'users',
+})
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

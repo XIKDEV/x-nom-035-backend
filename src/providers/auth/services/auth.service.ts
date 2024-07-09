@@ -5,6 +5,7 @@ import {
   baseResponse,
   handlerException,
   IBaseResponse,
+  ICommonId,
   unauthorizedExceptionMessages,
 } from '@/config';
 import { TUserAttributesSelected, UserPrismaService } from '@/modules';
@@ -46,7 +47,7 @@ export class AuthService {
     }
   }
 
-  generateJwt(data: { id: number; email: string }): string {
+  generateJwt(data: ICommonId): string {
     return this.jwtService.sign(data);
   }
 }
