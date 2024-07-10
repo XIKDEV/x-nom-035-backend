@@ -1,6 +1,7 @@
 import { Body } from '@nestjs/common';
 
-import { apiMethods, GuardSwagger, Swagger } from '@/config';
+import { apiMethods } from '@/config';
+import { GuardSwagger, Swagger } from '@/config/swagger/decorators';
 
 import { LoginDto } from '../dtos';
 import { AuthService } from '../services';

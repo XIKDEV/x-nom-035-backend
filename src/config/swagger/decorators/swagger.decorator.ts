@@ -1,5 +1,7 @@
-import { applyDecorators, Delete, Get, Patch, Post } from '@nestjs/common';
+import { Delete, Get, Patch, Post, UseGuards } from '@nestjs/common';
+import { applyDecorators } from '@nestjs/common/decorators/core/apply-decorators';
 import {
+  ApiBearerAuth,
   ApiConflictResponse,
   ApiConsumes,
   ApiForbiddenResponse,
@@ -14,6 +16,7 @@ import {
   apiMessages,
   statusCodes,
 } from '@/config/api';
+import { JwtAuthGuard } from '@/providers/auth/guards';
 
 import { GenericResponse, GenericResponseError } from '../dto';
 import {
@@ -26,7 +29,7 @@ export const Swagger = ({
   restApi,
   link = '',
   apiConsumes = constantsApiConsumes.json,
-  hadSecurity: _ = false,
+  hadSecurity = false,
 }: ISwaggerResponseOptions) => {
   const restOptions: IMethodsDecoratorSwagger = {
     Get,
@@ -35,7 +38,7 @@ export const Swagger = ({
     Delete,
   };
 
-  return applyDecorators(
+  const decorators = [
     ApiResponse({
       status: status || statusCodes.ok,
       description:
@@ -66,6 +69,12 @@ export const Swagger = ({
     }),
     ApiConsumes(apiConsumes),
     restOptions[restApi as keyof IMethodsDecoratorSwagger](link),
-    // hadSecurity && UseGuards(JwtAuthGuard),
-  );
+  ];
+
+  if (hadSecurity) {
+    decorators.push(ApiBearerAuth());
+    decorators.push(UseGuards(JwtAuthGuard));
+  }
+
+  return applyDecorators(...decorators);
 };

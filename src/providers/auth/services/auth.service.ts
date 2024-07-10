@@ -1,4 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import {
@@ -17,6 +22,7 @@ import { LoginDto } from '../dtos';
 export class AuthService {
   constructor(
     private readonly bcryptService: BcryptService,
+    @Inject(forwardRef(() => UserPrismaService))
     private readonly userPrismaService: UserPrismaService,
     private readonly jwtService: JwtService,
   ) {}
@@ -40,7 +46,10 @@ export class AuthService {
         );
 
       return baseResponse<TUserAttributesSelected>({
-        data: user,
+        data: {
+          ...user,
+          token: this.generateJwt({ id: user.id }),
+        },
       });
     } catch (error) {
       return handlerException(error);

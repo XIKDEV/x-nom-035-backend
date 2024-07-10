@@ -55,4 +55,15 @@ export class UserPrismaService {
 
     return user;
   }
+
+  async findMany(): Promise<TUserAttributesNoPassword[]> {
+    return await this.prisma.users.findMany({
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        lastname: true,
+      },
+    });
+  }
 }

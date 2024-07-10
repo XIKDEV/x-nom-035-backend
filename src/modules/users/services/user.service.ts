@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { Users } from '@prisma/client';
 
-import { PrismaService } from '@/config';
+import { UserPrismaService } from '../helpers';
+import { TUserAttributesNoPassword } from '../interfaces';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly userPrismaService: UserPrismaService) {}
 
-  async findAll(): Promise<Users[]> {
-    return await this.prisma.users.findMany();
+  async findAll(): Promise<TUserAttributesNoPassword[]> {
+    return await this.userPrismaService.findMany();
   }
 }
