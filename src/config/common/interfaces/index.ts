@@ -20,3 +20,7 @@ export interface IHttpExceptionFIlter {
   409: (message: string) => never;
   422: (message: string) => never;
 }
+
+export interface ICommonId {
+  id: number;
+}

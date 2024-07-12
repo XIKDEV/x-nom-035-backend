@@ -2,7 +2,10 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 
 import { PrismaService, unauthorizedExceptionMessages } from '@/config';
 
-import { TUserAttributesSelected } from '../interfaces';
+import {
+  TUserAttributesNoPassword,
+  TUserAttributesSelected,
+} from '../interfaces';
 
 @Injectable()
 export class UserPrismaService {
@@ -29,5 +32,38 @@ export class UserPrismaService {
     }
 
     return user;
+  }
+
+  async findById(id: number): Promise<TUserAttributesNoPassword | null> {
+    const user = await this.prisma.users.findFirst({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        name: true,
+        lastname: true,
+        email: true,
+      },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException(
+        unauthorizedExceptionMessages.invalidCredentials,
+      );
+    }
+
+    return user;
+  }
+
+  async findMany(): Promise<TUserAttributesNoPassword[]> {
+    return await this.prisma.users.findMany({
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        lastname: true,
+      },
+    });
   }
 }

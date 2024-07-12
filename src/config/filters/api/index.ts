@@ -6,8 +6,9 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 
-import { apiMessages } from '@/config/api';
 import { baseResponse } from '@/config/common/utils';
+
+import { exceptionsMessages, IExceptionsMessages } from './constants';
 
 @Catch(HttpException)
 export class HttpExceptionsFilter implements ExceptionFilter {
@@ -25,10 +26,11 @@ export class HttpExceptionsFilter implements ExceptionFilter {
     const status = exception.getStatus();
 
     const message =
-      (exception.getResponse() as { message: string })['message'] ===
-      'Forbidden resource'
-        ? apiMessages.notPermission
-        : (exception.getResponse() as { message: string })['message'];
+      exceptionsMessages[
+        (exception.getResponse() as { message: string })[
+          'message'
+        ] as keyof IExceptionsMessages
+      ] ?? (exception.getResponse() as { message: string })['message'];
 
     const resp = baseResponse({
       success: false,
