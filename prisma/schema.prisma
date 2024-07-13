@@ -8,13 +8,14 @@ datasource db {
 }
 
 model Cities {
-  id           Int            @id @default(autoincrement())
-  name         String?        @db.VarChar(100)
-  active       Boolean?       @default(true)
-  createdAt    DateTime?      @default(now()) @map("created_at") @db.Date
-  updatedAt    DateTime?      @map("updated_at") @db.Date
-  enterprises  Enterprises[]
-  statesCities StatesCities[]
+  id          Int           @id @default(autoincrement())
+  name        String?       @db.VarChar(100)
+  active      Boolean?      @default(true)
+  createdAt   DateTime?     @default(now()) @map("created_at") @db.Date
+  updatedAt   DateTime?     @map("updated_at") @db.Date
+  id_state    Int?
+  states      States?       @relation(fields: [id_state], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  enterprises Enterprises[]
 
   @@map("cities")
 }
@@ -80,7 +81,7 @@ model ModuleTypes {
 
 model Modules {
   id           Int            @id @default(autoincrement())
-  module       String         @db.VarChar(100)
+  name         String         @db.VarChar(100)
   description  String?        @db.VarChar(100)
   route        String?        @db.VarChar(100)
   icon         String?        @db.VarChar(100)
@@ -98,7 +99,7 @@ model Modules {
 
 model Permissions {
   id                      Int                       @id @default(autoincrement())
-  permission              String                    @db.VarChar(100)
+  name                    String                    @db.VarChar(100)
   description             String?                   @db.VarChar(100)
   active                  Boolean?                  @default(true)
   createdAt               DateTime?                 @default(now()) @map("created_at") @db.Date
@@ -110,7 +111,7 @@ model Permissions {
 
 model Roles {
   id           Int            @id @default(autoincrement())
-  role         String         @db.VarChar(100)
+  name         String         @db.VarChar(100)
   description  String?        @db.VarChar(100)
   active       Boolean?       @default(true)
   createdAt    DateTime?      @default(now()) @map("created_at") @db.Date
@@ -149,29 +150,16 @@ model RolesModulesPermissions {
 }
 
 model States {
-  id           Int            @id @default(autoincrement())
-  code         String?        @db.Char(3)
-  name         String?        @db.VarChar(100)
-  active       Boolean?       @default(true)
-  createdAt    DateTime?      @default(now()) @map("created_at") @db.Date
-  updatedAt    DateTime?      @map("updated_at") @db.Date
-  enterprises  Enterprises[]
-  statesCities StatesCities[]
+  id          Int           @id @default(autoincrement())
+  code        String?       @db.Char(3)
+  name        String?       @db.VarChar(100)
+  active      Boolean?      @default(true)
+  createdAt   DateTime?     @default(now()) @map("created_at") @db.Date
+  updatedAt   DateTime?     @map("updated_at") @db.Date
+  cities      Cities[]
+  enterprises Enterprises[]
 
   @@map("states")
-}
-
-model StatesCities {
-  id        Int       @id @default(autoincrement())
-  idCity    Int?      @map("id_city")
-  idState   Int?      @map("id_state")
-  active    Boolean?  @default(true)
-  createdAt DateTime? @default(now()) @map("created_at") @db.Date
-  updatedAt DateTime? @map("updated_at") @db.Date
-  cities    Cities?   @relation(fields: [idCity], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_city")
-  states    States?   @relation(fields: [idState], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_state")
-
-  @@map("states_cities")
 }
 
 model TypeTest {

@@ -1,1 +1,1 @@
-export * from './user.prisma.helpers.service';
+export * from './user.prisma.helper.service';
