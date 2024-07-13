@@ -22,6 +22,32 @@ export class UserPrismaService {
         lastname: true,
         email: true,
         password: true,
+        roles: {
+          select: {
+            id: true,
+            rolesModules: {
+              select: {
+                id: true,
+                modules: {
+                  select: {
+                    id: true,
+                    module: true,
+                    component: true,
+                    description: true,
+                    icon: true,
+                    route: true,
+                  },
+                },
+                rolesModulesPermissions: {
+                  select: {
+                    id: true,
+                    idPermission: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
 
