@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 
 import { ICatalogsAttributes, mappingCatalogs, PrismaService } from '@/config';
 
-import { TModulesNotPropControls } from '../interfaces';
+import { TPermissionsNotPropControls } from '../interfaces';
 
 @Injectable()
-export class ModulesPrismaService {
+export class PermissionsService {
   constructor(private prismaService: PrismaService) {}
 
   async catalog(): Promise<ICatalogsAttributes[]> {
@@ -13,16 +13,10 @@ export class ModulesPrismaService {
       select: {
         id: true,
         name: true,
-        component: true,
-        description: true,
-        icon: true,
-        route: true,
-        idType: true,
-        menuOption: true,
       },
     });
 
-    const mappingModules = mappingCatalogs<TModulesNotPropControls>({
+    const mappingModules = mappingCatalogs<TPermissionsNotPropControls>({
       data: modules,
     });
 
