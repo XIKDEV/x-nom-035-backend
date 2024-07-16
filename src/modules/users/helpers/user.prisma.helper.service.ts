@@ -31,7 +31,7 @@ export class UserPrismaService {
                 modules: {
                   select: {
                     id: true,
-                    module: true,
+                    name: true,
                     component: true,
                     description: true,
                     icon: true,

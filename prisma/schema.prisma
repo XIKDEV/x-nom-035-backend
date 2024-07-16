@@ -70,7 +70,7 @@ model Enterprises {
 
 model ModuleTypes {
   id        Int       @id @default(autoincrement())
-  type      String?   @db.VarChar(255)
+  name      String?   @db.VarChar(255)
   active    Boolean?  @default(true)
   createdAt DateTime? @default(now()) @map("created_at") @db.Date
   updatedAt DateTime? @map("updated_at") @db.Date

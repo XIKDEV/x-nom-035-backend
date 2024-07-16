@@ -2,10 +2,11 @@ import { Module } from '@nestjs/common';
 
 import { PrismaModule } from '@/config';
 
-import { PermissionsService } from './helpers';
+import { PermissionsPrismaService } from './helpers';
 
 @Module({
-  providers: [PermissionsService],
+  providers: [PermissionsPrismaService],
+  exports: [PermissionsPrismaService],
   imports: [PrismaModule],
 })
 export class PermissionsModule {}

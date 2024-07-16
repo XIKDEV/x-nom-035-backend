@@ -6,6 +6,7 @@ import { RolesPrismaService } from './helpers';
 
 @Module({
   providers: [RolesPrismaService],
+  exports: [RolesPrismaService],
   imports: [PrismaModule],
 })
 export class RolesModule {}
