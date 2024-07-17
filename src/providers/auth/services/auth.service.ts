@@ -5,6 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { Users } from '@prisma/client';
 
 import {
   baseResponse,
@@ -49,6 +50,20 @@ export class AuthService {
         data: {
           ...user,
           token: this.generateJwt({ id: user.id }),
+        },
+      });
+    } catch (error) {
+      return handlerException(error);
+    }
+  }
+
+  validJwt(user: Users): IBaseResponse<{ token: string }> {
+    try {
+      const token = this.generateJwt({ id: user.id });
+
+      return baseResponse<{ token: string }>({
+        data: {
+          token,
         },
       });
     } catch (error) {
