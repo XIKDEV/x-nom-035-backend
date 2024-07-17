@@ -24,3 +24,14 @@ export interface IHttpExceptionFIlter {
 export interface ICommonId {
   id: number;
 }
+
+export interface ICatalogsAttributes {
+  value: number;
+  label: string;
+}
+
+export interface IMappingCatalogs<T> {
+  data: T[];
+}
+
+export type TOmitPropControl = 'createdAt' | 'updatedAt' | 'active';
