@@ -85,7 +85,7 @@ export default [
       'prettier/prettier': [
         'error',
         {},
-        { usePrettierrc: true, endOfLine: 'off' },
+        { usePrettierrc: true, endOfLine: 'auto', parser: 'flow' },
       ],
     },
   },
