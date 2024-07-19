@@ -3,7 +3,7 @@ import { apiMethods, GuardSwagger, Swagger } from '@/config';
 import { CatalogsService } from '../services';
 
 @GuardSwagger({
-  tag: 'catalogs',
+  tag: 'catalog',
 })
 export class CatalogsController {
   constructor(private readonly catalogsService: CatalogsService) {}
