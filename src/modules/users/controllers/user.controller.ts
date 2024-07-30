@@ -1,4 +1,6 @@
-import { apiMethods, GuardSwagger, Swagger } from '@/config/';
+import { Query } from '@nestjs/common';
+
+import { apiMethods, FindAllDto, GuardSwagger, Swagger } from '@/config/';
 
 import { UserService } from '../services';
 
@@ -11,7 +13,7 @@ export class UserController {
   @Swagger({
     restApi: apiMethods.get,
   })
-  findAll() {
-    return this.userService.findAll();
+  findAll(@Query() findAllDto: FindAllDto) {
+    return this.userService.findAll(findAllDto);
   }
 }
