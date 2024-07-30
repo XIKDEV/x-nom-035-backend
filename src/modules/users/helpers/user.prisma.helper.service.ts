@@ -1,6 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 
-import { PrismaService, unauthorizedExceptionMessages } from '@/config';
+import {
+  IPrismaOptions,
+  PrismaService,
+  unauthorizedExceptionMessages,
+} from '@/config';
 
 import {
   TUserAttributesNoPassword,
@@ -82,7 +87,13 @@ export class UserPrismaService {
     return user;
   }
 
-  async findMany(): Promise<TUserAttributesNoPassword[]> {
+  async findMany({
+    skip,
+    take,
+    where,
+  }: IPrismaOptions<Prisma.UsersWhereInput>): Promise<
+    TUserAttributesNoPassword[]
+  > {
     return await this.prisma.users.findMany({
       select: {
         id: true,
@@ -90,6 +101,9 @@ export class UserPrismaService {
         name: true,
         lastname: true,
       },
+      skip,
+      take,
+      where,
     });
   }
 }

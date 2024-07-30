@@ -1,3 +1,5 @@
+import { FindAllDto } from '../dto';
+
 export interface IBaseResponse<T> {
   success?: boolean;
   data?: T | object;
@@ -35,3 +37,15 @@ export interface IMappingCatalogs<T> {
 }
 
 export type TOmitPropControl = 'createdAt' | 'updatedAt' | 'active';
+
+export type TPaginationControl = Omit<FindAllDto, 'like' | 'likeField'>;
+export type TWhereFilterControl = Pick<FindAllDto, 'like' | 'likeField'>;
+
+export interface IPrismaPagination {
+  skip?: number;
+  take?: number;
+}
+
+export interface IPrismaOptions<T> extends IPrismaPagination {
+  where?: T;
+}
