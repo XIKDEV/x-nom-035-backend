@@ -62,7 +62,13 @@ export const typeValidateDtoMigration = ({
 });
 
 export const fieldsDto = {
-  general: { email: 'email', password: 'password' },
+  general: {
+    email: 'email',
+    password: 'password',
+    id: 'id',
+    name: 'name',
+    lastname: 'lastname',
+  },
   pagination: {
     page: 'page',
     results: 'results',

@@ -7,8 +7,10 @@ import {
   getWhereFilter,
   handlerException,
   IBaseResponse,
+  IdDto,
 } from '@/config';
 
+import { UpdateUserDto } from '../dto';
 import { UserPrismaService } from '../helpers';
 import { TUserAttributesNoPassword } from '../interfaces';
 
@@ -36,6 +38,59 @@ export class UserService {
       return baseResponse({
         data,
       });
+    } catch (error) {
+      return handlerException(error);
+    }
+  }
+
+  async update({
+    lastname,
+    name,
+    email,
+    idRole,
+    idEnterprise,
+    id,
+  }: UpdateUserDto): Promise<IBaseResponse<TUserAttributesNoPassword>> {
+    try {
+      const where = { id };
+
+      await this.userPrismaService.validRoleAndEnterprise({
+        idEnterprise,
+        idRole,
+      });
+
+      await this.userPrismaService.findById(id);
+
+      const data = await this.userPrismaService.update({
+        where,
+        data: {
+          lastname,
+          name,
+          email,
+          idEnterprise,
+          idRole,
+        },
+      });
+
+      return baseResponse({
+        data,
+      });
+    } catch (error) {
+      return handlerException(error);
+    }
+  }
+
+  async delete({ id }: IdDto): Promise<IBaseResponse<unknown>> {
+    try {
+      const where = { id };
+
+      await this.userPrismaService.findById(id);
+
+      await this.userPrismaService.delete({
+        where,
+      });
+
+      return baseResponse({});
     } catch (error) {
       return handlerException(error);
     }
