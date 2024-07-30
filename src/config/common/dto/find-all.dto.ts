@@ -18,7 +18,7 @@ export class FindAllDto {
     },
     validatorsDtoOptions: [
       {
-        typeDto: typeDto.isInt,
+        typeDto: typeDto.isNumber,
         options: {
           message: dtoValidatorMessage.wrongTypeField(
             fieldsDto.pagination.page,

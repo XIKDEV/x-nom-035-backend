@@ -13,8 +13,8 @@ model Cities {
   active      Boolean?      @default(true)
   createdAt   DateTime?     @default(now()) @map("created_at") @db.Date
   updatedAt   DateTime?     @map("updated_at") @db.Date
-  id_state    Int?
-  states      States?       @relation(fields: [id_state], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  idState     Int?          @map("id_state")
+  states      States?       @relation(fields: [idState], references: [id], onDelete: Restrict, onUpdate: Restrict)
   enterprises Enterprises[]
 
   @@map("cities")
@@ -184,6 +184,7 @@ model Users {
   createdAt    DateTime?    @default(now()) @map("created_at") @db.Date
   updatedAt    DateTime?    @map("updated_at") @db.Date
   idEnterprise Int?         @map("id_enterprise")
+  fullName     String?      @map("full_name") @db.VarChar(100)
   roles        Roles?       @relation(fields: [idRole], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_role_user")
   enterprises  Enterprises? @relation(fields: [idEnterprise], references: [id], onDelete: Restrict, onUpdate: Restrict)
 

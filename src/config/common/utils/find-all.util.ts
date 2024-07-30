@@ -7,9 +7,11 @@ export const getPaginationFields = ({ page, results }: TPaginationControl) => {
 };
 
 export const getWhereFilter = ({ likeField, like }: TWhereFilterControl) => {
-  return {
-    [likeField]: {
-      contains: like,
-    },
-  };
+  return likeField || like
+    ? {
+        [likeField]: {
+          contains: like,
+        },
+      }
+    : {};
 };

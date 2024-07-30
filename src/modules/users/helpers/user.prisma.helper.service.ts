@@ -23,8 +23,7 @@ export class UserPrismaService {
       },
       select: {
         id: true,
-        name: true,
-        lastname: true,
+        fullName: true,
         email: true,
         password: true,
         roles: {
@@ -72,8 +71,7 @@ export class UserPrismaService {
       },
       select: {
         id: true,
-        name: true,
-        lastname: true,
+        fullName: true,
         email: true,
       },
     });
@@ -98,8 +96,7 @@ export class UserPrismaService {
       select: {
         id: true,
         email: true,
-        name: true,
-        lastname: true,
+        fullName: true,
       },
       skip,
       take,
