@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -13,6 +14,14 @@ async function bootstrap() {
     methods: 'GET,PATCH,POST,DELETE',
     // allowedHeaders: 'Content-Type, Accept',
   });
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      errorHttpStatusCode: 422,
+    }),
+  );
 
   app.useGlobalFilters(new HttpExceptionsFilter());
 

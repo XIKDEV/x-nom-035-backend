@@ -62,8 +62,13 @@ export const typeValidateDtoMigration = ({
 });
 
 export const fieldsDto = {
-  email: 'email',
-  password: 'password',
+  general: { email: 'email', password: 'password' },
+  pagination: {
+    page: 'page',
+    results: 'results',
+    like: 'like',
+    likeField: 'likeField',
+  },
 };
 
 export const typeDto = {
@@ -74,7 +79,8 @@ export const typeDto = {
 };
 
 export const dataType = {
-  string: 'string',
-  number: 'number',
-  boolean: 'boolean',
+  string: 'cadena de texto',
+  number: 'número',
+  boolean: 'booleano',
+  int: 'entero',
 };

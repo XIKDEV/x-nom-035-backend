@@ -9,7 +9,7 @@ import {
 export class LoginDto {
   @dtoDecorators({
     baseOptions: {
-      message: dtoValidatorMessage.requiredField(fieldsDto.email),
+      message: dtoValidatorMessage.requiredField(fieldsDto.general.email),
     },
     swaggerOptions: {
       example: 'test@test.com',
@@ -20,7 +20,7 @@ export class LoginDto {
         typeDto: typeDto.isString,
         options: {
           message: dtoValidatorMessage.wrongTypeField(
-            fieldsDto.email,
+            fieldsDto.general.email,
             dataType.string,
           ),
         },
@@ -37,7 +37,7 @@ export class LoginDto {
 
   @dtoDecorators({
     baseOptions: {
-      message: dtoValidatorMessage.requiredField(fieldsDto.password),
+      message: dtoValidatorMessage.requiredField(fieldsDto.general.password),
     },
     swaggerOptions: {
       example: 'contraseña genérico',
@@ -48,7 +48,7 @@ export class LoginDto {
         typeDto: typeDto.isString,
         options: {
           message: dtoValidatorMessage.wrongTypeField(
-            fieldsDto.password,
+            fieldsDto.general.password,
             dataType.string,
           ),
         },
