@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 
 import { ICatalogsAttributes, mappingCatalogs, PrismaService } from '@/config';
 
 import { TRolesNotPropControls } from '../interfaces';
+import { roleMessages } from '../messages';
 
 @Injectable()
 export class RolesPrismaService {
@@ -21,5 +22,19 @@ export class RolesPrismaService {
     });
 
     return mappingRoles;
+  }
+
+  async findById(id: number) {
+    const role = await this.prismaService.roles.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!role) {
+      throw new ConflictException(roleMessages.roleNotFound);
+    }
+
+    return role;
   }
 }

@@ -46,6 +46,14 @@ export interface IPrismaPagination {
   take?: number;
 }
 
-export interface IPrismaOptions<T> extends IPrismaPagination {
+export interface IPrismaWhereFilter<T> {
   where?: T;
+}
+
+export interface IPrismaOptions<T>
+  extends IPrismaPagination,
+    IPrismaWhereFilter<T> {}
+
+export interface IPrismaUpdate<T, A> extends IPrismaWhereFilter<T> {
+  data: A;
 }
