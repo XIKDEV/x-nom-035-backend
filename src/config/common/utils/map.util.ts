@@ -11,3 +11,7 @@ export const mappingCatalogs = <T extends { id: number; name: string }>({
 
   return catalogProps;
 };
+
+export const getArrayFromProperty = <T>(data: T[], property: string) => {
+  return data.map((item) => item[property as keyof T]);
+};

@@ -1,12 +1,14 @@
-import { ValidationPipe } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { resolve } from 'path';
 
 import { AppModule } from './app.module';
 import { HttpExceptionsFilter, nodeEnv } from './config';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  //  TODO: Buscar mejora
+  const app = await NestFactory.create<INestApplication | any>(AppModule);
 
   app.setGlobalPrefix('api/v3');
   app.enableCors({
@@ -24,6 +26,10 @@ async function bootstrap() {
   );
 
   app.useGlobalFilters(new HttpExceptionsFilter());
+
+  app.useStaticAssets(resolve(__dirname, '..', 'public'));
+  app.setBaseViewsDir(resolve(__dirname, '..', 'views/layouts'));
+  app.setViewEngine('hbs');
 
   if (process.env.NODE_ENV === nodeEnv.development) {
     const config = new DocumentBuilder()
