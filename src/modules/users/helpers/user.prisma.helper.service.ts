@@ -234,7 +234,6 @@ export class UserPrismaService {
       data: {
         ...data,
         password: passwordRandom,
-        active: false,
       },
       select: {
         id: true,
