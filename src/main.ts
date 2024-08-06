@@ -9,7 +9,6 @@ import { AppModule } from './app.module';
 import { HttpExceptionsFilter, nodeEnv } from './config';
 
 async function bootstrap() {
-  //  TODO: Buscar mejora
   const app = await NestFactory.create<INestApplication | any>(AppModule);
 
   app.setGlobalPrefix('api/v3');
