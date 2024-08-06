@@ -11,6 +11,7 @@ export interface IError {
   status: number;
   message: string;
   name: string;
+  code: string;
 }
 
 export interface IErrorNoStatus extends Omit<IError, 'status'> {}

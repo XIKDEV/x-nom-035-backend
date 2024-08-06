@@ -1,9 +1,9 @@
-export interface IRenderTemplate {
+export interface IRenderTemplate<T> {
   template: string;
-  context: object;
+  context: T;
 }
 
-export interface ISendEmail extends IRenderTemplate {
+export interface ISendEmail<T> extends IRenderTemplate<T> {
   to: string[];
   subject: string;
   from?: string;
@@ -12,4 +12,9 @@ export interface ISendEmail extends IRenderTemplate {
 export interface ISearchFileByRoute {
   route: string;
   nameFile: string;
+}
+
+export interface ISendNewUser {
+  email: string;
+  password: string;
 }

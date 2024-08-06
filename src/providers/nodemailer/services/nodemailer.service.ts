@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import fs from 'fs';
 import Handlebars from 'handlebars';
 import nodemailer from 'nodemailer';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import path from 'path';
 
 import { IRenderTemplate, ISearchFileByRoute, ISendEmail } from '../interfaces';
@@ -11,24 +12,24 @@ import { IRenderTemplate, ISearchFileByRoute, ISendEmail } from '../interfaces';
 export class NodemailerService {
   constructor(private readonly configService: ConfigService) {}
 
-  private searchFileByRoute({ nameFile, route }: ISearchFileByRoute) {
+  private searchFileByRoute({ nameFile, route }: ISearchFileByRoute): string {
     return path.join(__dirname, route, nameFile);
   }
 
-  private getFile(pathFile: fs.PathOrFileDescriptor) {
+  private getFile(pathFile: fs.PathOrFileDescriptor): string {
     return fs.readFileSync(pathFile, 'utf8');
   }
 
-  renderTemplate({ context, template }: IRenderTemplate) {
+  renderTemplate<T>({ context, template }: IRenderTemplate<T>): string {
     const layoutPath = this.searchFileByRoute({
-      route: '../../views/layouts',
+      route: '../../../../views/layouts',
       nameFile: 'index.hbs',
     });
     const layoutContent = this.getFile(layoutPath);
     const compiledLayout = Handlebars.compile(layoutContent);
 
     const emailTemplatePath = this.searchFileByRoute({
-      route: '../../views',
+      route: '../../../../views',
       nameFile: `${template}.hbs`,
     });
     const emailContent = this.getFile(emailTemplatePath);
@@ -39,19 +40,25 @@ export class NodemailerService {
     return finalHtml;
   }
 
-  createTransport() {
+  createTransport(): nodemailer.Transporter<SMTPTransport.SentMessageInfo> {
     return nodemailer.createTransport({
       service: this.configService.get<string>('EMAIL_SERVICE'),
       auth: {
-        user: this.configService.get<string>('EMAIL_EMAIL'),
+        user: this.configService.get<string>('EMAIL_FROM'),
         pass: this.configService.get<string>('EMAIL_PASSWORD'),
       },
       port: this.configService.get<number>('EMAIL_PORT'),
     });
   }
 
-  sendEmail({ template, context, to, subject, from }: ISendEmail) {
-    const html = this.renderTemplate({
+  async sendEmail<T>({
+    template,
+    context,
+    to,
+    subject,
+    from,
+  }: ISendEmail<T>): Promise<void> {
+    const html = this.renderTemplate<T>({
       context,
       template,
     });
@@ -65,6 +72,6 @@ export class NodemailerService {
 
     const transporter = this.createTransport();
 
-    return transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailOptions);
   }
 }

@@ -75,6 +75,9 @@ export const fieldsDto = {
     like: 'like',
     likeField: 'likeField',
   },
+  ids: {
+    idRole: 'idRole',
+  },
 };
 
 export const typeDto = {

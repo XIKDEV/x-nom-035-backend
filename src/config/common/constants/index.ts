@@ -22,7 +22,9 @@ export const httpExceptionFilter = {
     throw new ForbiddenException(error.message);
   },
   500: (error: IErrorNoStatus) => {
-    throw new InternalServerErrorException(`${error.name}: ${error.message}`);
+    throw new InternalServerErrorException(
+      `${error.name}: ${error.message ?? error.code}`,
+    );
   },
   409: (error: IErrorNoStatus) => {
     throw new ConflictException(error.message);

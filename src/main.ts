@@ -1,6 +1,8 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import fs from 'fs';
+import Handlebars from 'handlebars';
 import { resolve } from 'path';
 
 import { AppModule } from './app.module';
@@ -26,10 +28,23 @@ async function bootstrap() {
   );
 
   app.useGlobalFilters(new HttpExceptionsFilter());
-
   app.useStaticAssets(resolve(__dirname, '..', 'public'));
   app.setBaseViewsDir(resolve(__dirname, '..', 'views/layouts'));
   app.setViewEngine('hbs');
+
+  const partialsDir = resolve(__dirname, '../views/templates');
+  const filenames = fs.readdirSync(partialsDir);
+
+  filenames.forEach((filename) => {
+    const matches = /^([^.]+).hbs$/.exec(filename);
+    if (!matches) {
+      return;
+    }
+    const name = matches[1];
+    const filepath = resolve(partialsDir, filename);
+    const template = fs.readFileSync(filepath, 'utf8');
+    Handlebars.registerPartial(name, template);
+  });
 
   if (process.env.NODE_ENV === nodeEnv.development) {
     const config = new DocumentBuilder()

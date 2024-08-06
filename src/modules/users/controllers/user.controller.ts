@@ -8,7 +8,7 @@ import {
   Swagger,
 } from '@/config/';
 
-import { UpdateUserDto } from '../dto';
+import { CreateUserDto, UpdateUserDto } from '../dto';
 import { UserService } from '../services';
 
 @GuardSwagger({
@@ -29,6 +29,13 @@ export class UserController {
   })
   update(@Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(updateUserDto);
+  }
+
+  @Swagger({
+    restApi: apiMethods.post,
+  })
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
   }
 
   @Swagger({
