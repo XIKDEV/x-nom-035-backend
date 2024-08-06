@@ -49,7 +49,13 @@ export class UserService {
     }
   }
 
-  async create({ email, idEnterprise, idRole, lastname, name }: CreateUserDto) {
+  async create({
+    email,
+    idEnterprise,
+    idRole,
+    lastname,
+    name,
+  }: CreateUserDto): Promise<IBaseResponse<TUserAttributesNoPassword>> {
     try {
       await this.userPrismaService.validRoleAndEnterprise({
         idEnterprise,
