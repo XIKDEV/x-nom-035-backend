@@ -33,3 +33,7 @@ export const httpExceptionFilter = {
     throw new UnprocessableEntityException(error.message);
   },
 };
+
+export const regularExpressionsLocals = {
+  rfcEnterprise: /^[A-Z]{3}\d{6}[A-Z0-9]{3}$/,
+};

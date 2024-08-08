@@ -58,3 +58,8 @@ export interface IPrismaOptions<T>
 export interface IPrismaUpdate<T, A> extends IPrismaWhereFilter<T> {
   data: A;
 }
+
+export interface IReturnPagination {
+  skip: number;
+  take: number;
+}

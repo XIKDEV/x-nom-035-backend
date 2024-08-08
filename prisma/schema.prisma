@@ -58,11 +58,9 @@ model Enterprises {
   active              Boolean?   @default(true)
   createdAt           DateTime?  @default(now()) @map("created_at") @db.Date
   updatedAt           DateTime?  @map("updated_at") @db.Date
-  idState             Int?       @map("id_state")
   idCity              Int?       @map("id_city")
   contrats            Contrats[]
   cities              Cities?    @relation(fields: [idCity], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_city")
-  states              States?    @relation(fields: [idState], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_state")
   users               Users[]
 
   @@map("enterprises")
@@ -150,14 +148,13 @@ model RolesModulesPermissions {
 }
 
 model States {
-  id          Int           @id @default(autoincrement())
-  code        String?       @db.Char(3)
-  name        String?       @db.VarChar(100)
-  active      Boolean?      @default(true)
-  createdAt   DateTime?     @default(now()) @map("created_at") @db.Date
-  updatedAt   DateTime?     @map("updated_at") @db.Date
-  cities      Cities[]
-  enterprises Enterprises[]
+  id        Int       @id @default(autoincrement())
+  code      String?   @db.Char(3)
+  name      String?   @db.VarChar(100)
+  active    Boolean?  @default(true)
+  createdAt DateTime? @default(now()) @map("created_at") @db.Date
+  updatedAt DateTime? @map("updated_at") @db.Date
+  cities    Cities[]
 
   @@map("states")
 }
