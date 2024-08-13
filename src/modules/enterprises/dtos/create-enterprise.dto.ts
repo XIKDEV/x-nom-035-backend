@@ -222,18 +222,20 @@ export class CreateEnterpriseDto {
 
   @dtoDecorators({
     swaggerOptions: {
-      example: 'Fer',
-      descriptionOpt: 'Nombre del usuario',
+      example: 'Sociedad de bienes',
+      descriptionOpt: 'Tipo de empresa',
     },
     baseOptions: {
-      message: dtoValidatorMessage.requiredField(fieldsDto.general.name),
+      message: dtoValidatorMessage.requiredField(
+        fieldsDto.enterprise.enterpriseType,
+      ),
     },
     validatorsDtoOptions: [
       {
         typeDto: typeDto.isString,
         options: {
           message: dtoValidatorMessage.wrongTypeField(
-            fieldsDto.general.name,
+            fieldsDto.enterprise.enterpriseType,
             dataType.string,
           ),
         },
@@ -245,17 +247,19 @@ export class CreateEnterpriseDto {
   @dtoDecorators({
     swaggerOptions: {
       example: 'Fer',
-      descriptionOpt: 'Nombre del usuario',
+      descriptionOpt: 'pendiente de revisar',
     },
     baseOptions: {
-      message: dtoValidatorMessage.requiredField(fieldsDto.general.name),
+      message: dtoValidatorMessage.requiredField(
+        fieldsDto.enterprise.turnEnterprise,
+      ),
     },
     validatorsDtoOptions: [
       {
         typeDto: typeDto.isString,
         options: {
           message: dtoValidatorMessage.wrongTypeField(
-            fieldsDto.general.name,
+            fieldsDto.enterprise.turnEnterprise,
             dataType.string,
           ),
         },
@@ -266,18 +270,20 @@ export class CreateEnterpriseDto {
 
   @dtoDecorators({
     swaggerOptions: {
-      example: 'Fer',
-      descriptionOpt: 'Nombre del usuario',
+      example: '1115498745',
+      descriptionOpt: 'Telefono de la empresa',
     },
     baseOptions: {
-      message: dtoValidatorMessage.requiredField(fieldsDto.general.name),
+      message: dtoValidatorMessage.requiredField(
+        fieldsDto.enterprise.tellphone,
+      ),
     },
     validatorsDtoOptions: [
       {
         typeDto: typeDto.isString,
         options: {
           message: dtoValidatorMessage.wrongTypeField(
-            fieldsDto.general.name,
+            fieldsDto.enterprise.tellphone,
             dataType.string,
           ),
         },
@@ -288,18 +294,18 @@ export class CreateEnterpriseDto {
 
   @dtoDecorators({
     swaggerOptions: {
-      example: 'Fer',
-      descriptionOpt: 'Nombre del usuario',
+      example: 'test@test.com',
+      descriptionOpt: 'Correo de la empresa',
     },
     baseOptions: {
-      message: dtoValidatorMessage.requiredField(fieldsDto.general.name),
+      message: dtoValidatorMessage.requiredField(fieldsDto.general.email),
     },
     validatorsDtoOptions: [
       {
         typeDto: typeDto.isString,
         options: {
           message: dtoValidatorMessage.wrongTypeField(
-            fieldsDto.general.name,
+            fieldsDto.general.email,
             dataType.string,
           ),
         },
@@ -310,18 +316,18 @@ export class CreateEnterpriseDto {
 
   @dtoDecorators({
     swaggerOptions: {
-      example: 'Fer',
-      descriptionOpt: 'Nombre del usuario',
+      example: 'url firebase',
+      descriptionOpt: 'imagen',
     },
     baseOptions: {
-      message: dtoValidatorMessage.requiredField(fieldsDto.general.name),
+      isOptional: true,
     },
     validatorsDtoOptions: [
       {
         typeDto: typeDto.isString,
         options: {
           message: dtoValidatorMessage.wrongTypeField(
-            fieldsDto.general.name,
+            fieldsDto.enterprise.image,
             dataType.string,
           ),
         },
@@ -330,5 +336,26 @@ export class CreateEnterpriseDto {
   })
   image: string;
 
+  @dtoDecorators({
+    swaggerOptions: {
+      example: 1,
+      descriptionOpt: 'Ciudad',
+    },
+    baseOptions: {
+      message: dtoValidatorMessage.requiredField(fieldsDto.enterprise.idCity),
+      transform: true,
+    },
+    validatorsDtoOptions: [
+      {
+        typeDto: typeDto.isNumber,
+        options: {
+          message: dtoValidatorMessage.wrongTypeField(
+            fieldsDto.enterprise.idCity,
+            dataType.number,
+          ),
+        },
+      },
+    ],
+  })
   idCity: number;
 }

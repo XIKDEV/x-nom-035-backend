@@ -49,7 +49,6 @@ model Enterprises {
   interiorNumber      String     @map("interior_number") @db.VarChar(100)
   suburb              String     @db.VarChar(100)
   postalCode          Int        @map("postal_code")
-  country             String     @db.VarChar(100)
   enterpriseType      String     @map("enterprise_type") @db.VarChar(100)
   turnEnterprise      String     @map("turn_enterprise") @db.VarChar(100)
   tellphone           String     @db.VarChar(100)

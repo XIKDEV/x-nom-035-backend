@@ -63,3 +63,7 @@ export interface IReturnPagination {
   skip: number;
   take: number;
 }
+
+export interface IGlobalId {
+  id: number;
+}
