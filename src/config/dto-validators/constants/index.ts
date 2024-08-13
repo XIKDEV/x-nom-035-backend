@@ -68,6 +68,7 @@ export const fieldsDto = {
     id: 'id',
     name: 'name',
     lastname: 'lastname',
+    rfc: 'rfc',
   },
   pagination: {
     page: 'page',
@@ -77,6 +78,24 @@ export const fieldsDto = {
   },
   ids: {
     idRole: 'idRole',
+  },
+  enterprise: {
+    idCity: 'idCity',
+    businessName: 'businessName',
+    comercialName: 'comercialName',
+    legalRepresentative: 'legalRepresentative',
+    rfc: 'rfc',
+    street: 'street',
+    exteriorNumber: 'exteriorNumber',
+    interiorNumber: 'interiorNumber',
+    suburb: 'suburb',
+    postalCode: 'postalCode',
+    country: 'country',
+    enterpriseType: 'enterpriseType',
+    turnEnterprise: 'turnEnterprise',
+    tellphone: 'tellphone',
+    email: 'email',
+    image: 'image',
   },
 };
 
