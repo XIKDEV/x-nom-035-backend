@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { Enterprises, Prisma } from '@prisma/client';
 
 import { IPrismaOptions, IPrismaUpdate, PrismaService } from '@/config';
+
+import { enterpriseMessages } from '../messages';
 
 @Injectable()
 export class EnterprisesPrismaService {
@@ -41,5 +43,18 @@ export class EnterprisesPrismaService {
       data,
       where,
     });
+  }
+
+  async validate(id: number): Promise<void> {
+    const enterprise = await this.prisma.enterprises.findUnique({
+      where: {
+        id,
+        active: true,
+      },
+    });
+
+    if (!enterprise) {
+      throw new ConflictException(enterpriseMessages.notFound);
+    }
   }
 }

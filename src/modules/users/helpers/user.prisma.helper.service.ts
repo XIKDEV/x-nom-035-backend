@@ -13,6 +13,7 @@ import {
   PrismaService,
   unauthorizedExceptionMessages,
 } from '@/config';
+import { EnterprisesPrismaService } from '@/modules/enterprises';
 
 import { CreateUserDto } from '../dto';
 import {
@@ -27,6 +28,7 @@ export class UserPrismaService {
   constructor(
     private prisma: PrismaService,
     private readonly rolePrismaService: RolesPrismaService,
+    private readonly enterprisesPrismaService: EnterprisesPrismaService,
   ) {}
 
   async findByEmail(email: string): Promise<TUserAttributesSelected | null> {
@@ -201,16 +203,7 @@ export class UserPrismaService {
     }
 
     if (idEnterprise) {
-      const enterprise = await this.prisma.enterprises.findUnique({
-        where: {
-          id: idEnterprise,
-          active: true,
-        },
-      });
-
-      if (!enterprise) {
-        throw new ConflictException(userMessages.enterpriseNotFound);
-      }
+      await this.enterprisesPrismaService.validate(idEnterprise);
     }
   }
 
