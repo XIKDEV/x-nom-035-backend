@@ -24,6 +24,10 @@ export interface IHttpExceptionFIlter {
   422: (message: string) => never;
 }
 
+export interface ICommonEmail {
+  email: string;
+}
+
 export interface ICommonId {
   id: number;
 }
