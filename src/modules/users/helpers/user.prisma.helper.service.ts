@@ -49,6 +49,8 @@ export class UserPrismaService {
         roles: {
           select: {
             id: true,
+            name: true,
+            description: true,
             rolesModules: {
               select: {
                 id: true,

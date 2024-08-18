@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Enterprises } from '@prisma/client';
 
 import { CitiesPrismaService } from '@/catalogs';
 import {
@@ -22,7 +23,12 @@ export class EnterprisesService {
     private readonly citiesPrismaService: CitiesPrismaService,
   ) {}
 
-  async findAll({ like, likeField, page, results }: FindAllDto) {
+  async findAll({
+    like,
+    likeField,
+    page,
+    results,
+  }: FindAllDto): Promise<IBaseResponse<Enterprises>> {
     try {
       const { skip, take } = getPaginationFields({ page, results });
 
@@ -34,7 +40,7 @@ export class EnterprisesService {
         where,
       });
 
-      return enterprises;
+      return baseResponse({ data: enterprises });
     } catch (error) {
       return handlerException(error);
     }

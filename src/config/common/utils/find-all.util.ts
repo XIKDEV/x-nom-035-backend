@@ -5,8 +5,8 @@ import {
 } from '../interfaces';
 
 export const getPaginationFields = ({
-  page,
-  results,
+  page = 1,
+  results = 50,
 }: TPaginationControl): IReturnPagination => {
   const skip = (page - 1) * results;
   const take = results;
