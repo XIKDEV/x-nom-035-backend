@@ -1,9 +1,10 @@
-import { Body, Controller, Query } from '@nestjs/common';
+import { Body, Query } from '@nestjs/common';
 
 import {
   apiConsumes as apiConsumesConstants,
   apiMethods,
   FindAllDto,
+  GuardSwagger,
   IdDto,
   Swagger,
 } from '@/config';
@@ -11,7 +12,9 @@ import {
 import { CreateEnterpriseDto } from '../dtos';
 import { EnterprisesService } from '../services';
 
-@Controller('enterprises')
+@GuardSwagger({
+  tag: 'enterprises',
+})
 export class EnterprisesController {
   constructor(private readonly enterprisesService: EnterprisesService) {}
 
