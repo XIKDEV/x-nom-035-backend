@@ -62,6 +62,7 @@ export class UserPrismaService {
                     description: true,
                     icon: true,
                     route: true,
+                    idType: true,
                   },
                 },
                 rolesModulesPermissions: {
@@ -139,6 +140,13 @@ export class UserPrismaService {
         lastname: true,
         idEnterprise: true,
         idRole: true,
+        enterprises: {
+          select: {
+            legalRepresentative: true,
+            businessName: true,
+            image: true,
+          },
+        },
       },
       skip,
       take,
