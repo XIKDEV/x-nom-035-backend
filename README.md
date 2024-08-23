@@ -32,6 +32,11 @@
 $ bun install
 ```
 
+## Generate prisma models
+```bash
+$ bun prisma:generate
+```
+
 ## Running the app
 
 ```bash
