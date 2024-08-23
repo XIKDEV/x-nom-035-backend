@@ -22,22 +22,22 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Descripcion
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Este proyecto es para simplificar a las empresas el uso de un cuestionario para cumplir con la NOM-035 y obtener sus resultados por diferentes sectores.
 
-## Installation
+## Instalacion
 
 ```bash
 $ bun install
 ```
 
-## Generate prisma models
+## Generar modelos de prisma
 ```bash
 $ bun prisma:generate
 ```
 
-## Running the app
+## Ejecutar app
 
 ```bash
 # development
@@ -47,7 +47,7 @@ $ bun dev
 $ bun start:prod
 ```
 
-## Test - Not implemented
+## Test - No implementado
 
 ```bash
 # unit tests
