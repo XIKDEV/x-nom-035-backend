@@ -22,30 +22,32 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Descripcion
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Este proyecto es para simplificar a las empresas el uso de un cuestionario para cumplir con la NOM-035 y obtener sus resultados por diferentes sectores.
 
-## Installation
+## Instalacion
 
 ```bash
-$ pnpm install
+$ bun install
 ```
 
-## Running the app
+## Generar modelos de prisma
+```bash
+$ bun prisma:generate
+```
+
+## Ejecutar app
 
 ```bash
 # development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
+$ bun dev
 
 # production mode
-$ pnpm run start:prod
+$ bun start:prod
 ```
 
-## Test
+## Test - No implementado
 
 ```bash
 # unit tests
@@ -57,17 +59,3 @@ $ pnpm run test:e2e
 # test coverage
 $ pnpm run test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).

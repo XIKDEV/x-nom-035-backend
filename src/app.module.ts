@@ -10,6 +10,8 @@ import { RolesModule } from './catalogs/roles/roles.module';
 import { StatesModule } from './catalogs/states/states.module';
 import { TypeTestModule } from './catalogs/type-test/type-test.module';
 import { TypesModuleModule } from './catalogs/types-module/types-module.module';
+import { NodemailerModule } from './providers/nodemailer/nodemailer.module';
+import { EnterprisesModule } from './modules/enterprises/enterprises.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { TypesModuleModule } from './catalogs/types-module/types-module.module';
     TypesModuleModule,
     StatesModule,
     CatalogsModule,
+    NodemailerModule,
+    EnterprisesModule,
   ],
 })
 export class AppModule {}

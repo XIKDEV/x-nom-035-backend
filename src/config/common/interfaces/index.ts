@@ -11,6 +11,7 @@ export interface IError {
   status: number;
   message: string;
   name: string;
+  code: string;
 }
 
 export interface IErrorNoStatus extends Omit<IError, 'status'> {}
@@ -21,6 +22,10 @@ export interface IHttpExceptionFIlter {
   500: (message: string) => never;
   409: (message: string) => never;
   422: (message: string) => never;
+}
+
+export interface ICommonEmail {
+  email: string;
 }
 
 export interface ICommonId {
@@ -56,4 +61,13 @@ export interface IPrismaOptions<T>
 
 export interface IPrismaUpdate<T, A> extends IPrismaWhereFilter<T> {
   data: A;
+}
+
+export interface IReturnPagination {
+  skip: number;
+  take: number;
+}
+
+export interface IGlobalId {
+  id: number;
 }

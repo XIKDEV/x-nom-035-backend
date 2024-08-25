@@ -19,6 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prisma:generate": "npx prisma generate",
+    "prisma:pull": "npx prisma db pull",
     "sierra": "nest start"
   },
   "dependencies": {
@@ -35,6 +36,9 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "express": "^4.19.2",
+    "handlebars": "^4.7.8",
+    "nodemailer": "^6.9.14",
+    "nodemailer-express-handlebars": "^6.1.2",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
@@ -51,8 +55,10 @@
     "@swc/cli": "^0.4.0",
     "@swc/core": "^1.6.7",
     "@types/express": "^4.17.21",
+    "@types/handlebars": "^4.1.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.11",
+    "@types/nodemailer": "^6.4.15",
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
     "@types/supertest": "^6.0.2",

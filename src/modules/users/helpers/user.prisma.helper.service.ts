@@ -13,7 +13,9 @@ import {
   PrismaService,
   unauthorizedExceptionMessages,
 } from '@/config';
+import { EnterprisesPrismaService } from '@/modules/enterprises';
 
+import { CreateUserDto } from '../dto';
 import {
   IValidRoleAndEnterprise,
   TUserAttributesNoPassword,
@@ -26,6 +28,7 @@ export class UserPrismaService {
   constructor(
     private prisma: PrismaService,
     private readonly rolePrismaService: RolesPrismaService,
+    private readonly enterprisesPrismaService: EnterprisesPrismaService,
   ) {}
 
   async findByEmail(email: string): Promise<TUserAttributesSelected | null> {
@@ -46,6 +49,8 @@ export class UserPrismaService {
         roles: {
           select: {
             id: true,
+            name: true,
+            description: true,
             rolesModules: {
               select: {
                 id: true,
@@ -57,6 +62,7 @@ export class UserPrismaService {
                     description: true,
                     icon: true,
                     route: true,
+                    idType: true,
                   },
                 },
                 rolesModulesPermissions: {
@@ -79,6 +85,19 @@ export class UserPrismaService {
     }
 
     return user;
+  }
+
+  async validateDuplicate(email: string): Promise<void> {
+    const user = await this.prisma.users.findFirst({
+      where: {
+        email,
+        active: true,
+      },
+    });
+
+    if (user) {
+      throw new ConflictException(userMessages.userDuplicate);
+    }
   }
 
   async findById(id: number): Promise<TUserAttributesNoPassword | null> {
@@ -121,6 +140,13 @@ export class UserPrismaService {
         lastname: true,
         idEnterprise: true,
         idRole: true,
+        enterprises: {
+          select: {
+            legalRepresentative: true,
+            businessName: true,
+            image: true,
+          },
+        },
       },
       skip,
       take,
@@ -182,17 +208,57 @@ export class UserPrismaService {
     idRole,
     idEnterprise,
   }: IValidRoleAndEnterprise): Promise<void> {
-    await this.rolePrismaService.findById(idRole);
+    if (idRole) {
+      await this.rolePrismaService.findById(idRole);
+    }
 
-    const enterprise = await this.prisma.enterprises.findUnique({
-      where: {
-        id: idEnterprise,
-        active: true,
+    if (idEnterprise) {
+      await this.enterprisesPrismaService.validate(idEnterprise);
+    }
+  }
+
+  private generatePassword(): string {
+    return Math.random().toString(36).slice(-8);
+  }
+
+  async create(data: CreateUserDto): Promise<TUserAttributesSelected> {
+    const passwordRandom = this.generatePassword();
+
+    const {
+      id,
+      email,
+      fullName,
+      name,
+      lastname,
+      idRole,
+      idEnterprise,
+      password,
+    } = await this.prisma.users.create({
+      data: {
+        ...data,
+        password: passwordRandom,
+      },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        name: true,
+        lastname: true,
+        idRole: true,
+        idEnterprise: true,
+        password: true,
       },
     });
 
-    if (!enterprise) {
-      throw new ConflictException(userMessages.enterpriseNotFound);
-    }
+    return {
+      id,
+      email,
+      fullName,
+      name,
+      lastname,
+      idRole,
+      idEnterprise,
+      password,
+    };
   }
 }

@@ -9,14 +9,20 @@ import {
   IBaseResponse,
   IdDto,
 } from '@/config';
+import { templates } from '@/providers/nodemailer/constants';
+import { ISendNewUser } from '@/providers/nodemailer/interfaces';
+import { NodemailerService } from '@/providers/nodemailer/services';
 
-import { UpdateUserDto } from '../dto';
+import { CreateUserDto, UpdateUserDto } from '../dto';
 import { UserPrismaService } from '../helpers';
 import { TUserAttributesNoPassword } from '../interfaces';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userPrismaService: UserPrismaService) {}
+  constructor(
+    private readonly userPrismaService: UserPrismaService,
+    private readonly nodemailerService: NodemailerService,
+  ) {}
 
   async findAll({
     like,
@@ -37,6 +43,47 @@ export class UserService {
 
       return baseResponse({
         data,
+      });
+    } catch (error) {
+      return handlerException(error);
+    }
+  }
+
+  async create({
+    email,
+    idEnterprise,
+    idRole,
+    lastname,
+    name,
+  }: CreateUserDto): Promise<IBaseResponse<TUserAttributesNoPassword>> {
+    try {
+      await this.userPrismaService.validRoleAndEnterprise({
+        idEnterprise,
+        idRole,
+      });
+
+      await this.userPrismaService.validateDuplicate(email);
+
+      const { password, ...user } = await this.userPrismaService.create({
+        email,
+        idEnterprise,
+        idRole,
+        lastname,
+        name,
+      });
+
+      await this.nodemailerService.sendEmail<ISendNewUser>({
+        subject: 'Bienvenido a la plataforma',
+        to: [user.email],
+        template: templates.email,
+        context: {
+          email: user.email,
+          password,
+        },
+      });
+
+      return baseResponse({
+        data: user,
       });
     } catch (error) {
       return handlerException(error);

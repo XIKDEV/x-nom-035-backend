@@ -22,7 +22,9 @@ export const httpExceptionFilter = {
     throw new ForbiddenException(error.message);
   },
   500: (error: IErrorNoStatus) => {
-    throw new InternalServerErrorException(`${error.name}: ${error.message}`);
+    throw new InternalServerErrorException(
+      `${error.name}: ${error.message ?? error.code}`,
+    );
   },
   409: (error: IErrorNoStatus) => {
     throw new ConflictException(error.message);
@@ -30,4 +32,8 @@ export const httpExceptionFilter = {
   422: (error: IErrorNoStatus) => {
     throw new UnprocessableEntityException(error.message);
   },
+};
+
+export const regularExpressionsLocals = {
+  rfcEnterprise: /^[A-Z]{3}\d{6}[A-Z0-9]{3}$/,
 };

@@ -11,6 +11,7 @@ import {
   baseResponse,
   handlerException,
   IBaseResponse,
+  ICommonEmail,
   ICommonId,
   unauthorizedExceptionMessages,
 } from '@/config';
@@ -49,7 +50,7 @@ export class AuthService {
       return baseResponse<TUserAttributesSelected>({
         data: {
           ...user,
-          token: this.generateJwt({ id: user.id }),
+          token: this.generateJwt({ id: user.id, email: user.email }),
         },
       });
     } catch (error) {
@@ -57,12 +58,16 @@ export class AuthService {
     }
   }
 
-  validJwt(user: Users): IBaseResponse<{ token: string }> {
+  async validJwt(user: Users): Promise<IBaseResponse<TUserAttributesSelected>> {
     try {
-      const token = this.generateJwt({ id: user.id });
+      const token = this.generateJwt({ id: user.id, email: user.email });
+
+      const { password: _password, ...userData } =
+        await this.userPrismaService.findByEmail(user.email);
 
       return baseResponse<{ token: string }>({
         data: {
+          ...userData,
           token,
         },
       });
@@ -71,7 +76,7 @@ export class AuthService {
     }
   }
 
-  generateJwt(data: ICommonId): string {
+  generateJwt(data: ICommonId & ICommonEmail): string {
     return this.jwtService.sign(data);
   }
 }
