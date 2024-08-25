@@ -71,3 +71,9 @@ export interface IReturnPagination {
 export interface IGlobalId {
   id: number;
 }
+
+export interface IGetBooleanFromArray<T> {
+  data: T[];
+  property: string;
+  value: any;
+}
