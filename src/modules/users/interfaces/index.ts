@@ -35,7 +35,7 @@ export interface IModulesRoles extends TRolesModules {
 export type TRolesModulePermissionsSelected = Pick<
   RolesModulesPermissions,
   'id' | 'idPermission'
->[];
+>;
 
 export interface IRolesModulesPermissionsBase extends IModulesRoles {
   rolesModulesPermissions: TRolesModulePermissionsSelected[];
