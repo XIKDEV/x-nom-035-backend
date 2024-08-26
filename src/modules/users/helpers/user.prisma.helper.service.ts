@@ -20,6 +20,7 @@ import { CreateUserDto } from '../dto';
 import {
   ILoginResponse,
   IRolesModulesPermissionsBase,
+  IRolesModulesPermissionsMapping,
   IValidRoleAndEnterprise,
   TRolesModulePermissionsSelected,
   TUserAttributesNoPassword,
@@ -35,10 +36,11 @@ export class UserPrismaService {
     private readonly enterprisesPrismaService: EnterprisesPrismaService,
   ) {}
 
-  setPermissionsByModules(rolesModules: IRolesModulesPermissionsBase[]) {
-    return rolesModules.map(({ rolesModulesPermissions, modules, id }) => ({
-      id,
-      modules,
+  setPermissionsByModules(
+    rolesModules: IRolesModulesPermissionsBase[],
+  ): IRolesModulesPermissionsMapping[] {
+    return rolesModules.map(({ rolesModulesPermissions, modules }) => ({
+      ...modules,
       create: getBooleanFromArray<TRolesModulePermissionsSelected>({
         data: rolesModulesPermissions,
         property: 'idPermission',

@@ -25,11 +25,13 @@ export type TUserAttributesNoPassword = Omit<
 
 type TRolesModules = Pick<RolesModules, 'id'>;
 
+type TModulesAttributesSelected = Pick<
+  Modules,
+  'id' | 'name' | 'component' | 'description' | 'icon' | 'route' | 'idType'
+>;
+
 export interface IModulesRoles extends TRolesModules {
-  modules: Pick<
-    Modules,
-    'id' | 'name' | 'component' | 'description' | 'icon' | 'route' | 'idType'
-  >;
+  modules: TModulesAttributesSelected;
 }
 
 export type TRolesModulePermissionsSelected = Pick<
@@ -41,7 +43,8 @@ export interface IRolesModulesPermissionsBase extends IModulesRoles {
   rolesModulesPermissions: TRolesModulePermissionsSelected[];
 }
 
-export interface IRolesModulesPermissionsMapping extends TRolesModules {
+export interface IRolesModulesPermissionsMapping
+  extends TModulesAttributesSelected {
   create: boolean;
   update: boolean;
   read: boolean;
