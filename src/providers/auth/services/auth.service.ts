@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { RolesModules, Users } from '@prisma/client';
+import { Users } from '@prisma/client';
 
 import {
   baseResponse,
