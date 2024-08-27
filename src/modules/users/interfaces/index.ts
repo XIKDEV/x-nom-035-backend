@@ -43,12 +43,16 @@ export interface IRolesModulesPermissionsBase extends IModulesRoles {
   rolesModulesPermissions: TRolesModulePermissionsSelected[];
 }
 
-export interface IRolesModulesPermissionsMapping
-  extends TModulesAttributesSelected {
+export interface IPermissionsMapping {
   create: boolean;
   update: boolean;
   read: boolean;
   delete: boolean;
+}
+
+export interface IRolesModulesPermissionsMapping
+  extends TModulesAttributesSelected {
+  permissions: IPermissionsMapping;
 }
 
 export interface IRoles extends Pick<Roles, 'name' | 'id' | 'description'> {

@@ -41,26 +41,28 @@ export class UserPrismaService {
   ): IRolesModulesPermissionsMapping[] {
     return rolesModules.map(({ rolesModulesPermissions, modules }) => ({
       ...modules,
-      create: getBooleanFromArray<TRolesModulePermissionsSelected>({
-        data: rolesModulesPermissions,
-        property: 'idPermission',
-        value: permissionsId.create,
-      }),
-      read: getBooleanFromArray<TRolesModulePermissionsSelected>({
-        data: rolesModulesPermissions,
-        property: 'idPermission',
-        value: permissionsId.read,
-      }),
-      update: getBooleanFromArray<TRolesModulePermissionsSelected>({
-        data: rolesModulesPermissions,
-        property: 'idPermission',
-        value: permissionsId.update,
-      }),
-      delete: getBooleanFromArray<TRolesModulePermissionsSelected>({
-        data: rolesModulesPermissions,
-        property: 'idPermission',
-        value: permissionsId.delete,
-      }),
+      permissions: {
+        create: getBooleanFromArray<TRolesModulePermissionsSelected>({
+          data: rolesModulesPermissions,
+          property: 'idPermission',
+          value: permissionsId.create,
+        }),
+        read: getBooleanFromArray<TRolesModulePermissionsSelected>({
+          data: rolesModulesPermissions,
+          property: 'idPermission',
+          value: permissionsId.read,
+        }),
+        update: getBooleanFromArray<TRolesModulePermissionsSelected>({
+          data: rolesModulesPermissions,
+          property: 'idPermission',
+          value: permissionsId.update,
+        }),
+        delete: getBooleanFromArray<TRolesModulePermissionsSelected>({
+          data: rolesModulesPermissions,
+          property: 'idPermission',
+          value: permissionsId.delete,
+        }),
+      },
     }));
   }
 
