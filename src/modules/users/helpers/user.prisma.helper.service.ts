@@ -5,8 +5,9 @@ import {
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
-import { RolesPrismaService } from '@/catalogs';
+import { permissionsId, RolesPrismaService } from '@/catalogs';
 import {
+  getBooleanFromArray,
   IPrismaOptions,
   IPrismaUpdate,
   IPrismaWhereFilter,
@@ -17,7 +18,11 @@ import { EnterprisesPrismaService } from '@/modules/enterprises';
 
 import { CreateUserDto } from '../dto';
 import {
+  ILoginResponse,
+  IRolesModulesPermissionsBase,
+  IRolesModulesPermissionsMapping,
   IValidRoleAndEnterprise,
+  TRolesModulePermissionsSelected,
   TUserAttributesNoPassword,
   TUserAttributesSelected,
 } from '../interfaces';
@@ -31,7 +36,37 @@ export class UserPrismaService {
     private readonly enterprisesPrismaService: EnterprisesPrismaService,
   ) {}
 
-  async findByEmail(email: string): Promise<TUserAttributesSelected | null> {
+  setPermissionsByModules(
+    rolesModules: IRolesModulesPermissionsBase[],
+  ): IRolesModulesPermissionsMapping[] {
+    return rolesModules.map(({ rolesModulesPermissions, modules }) => ({
+      ...modules,
+      permissions: {
+        create: getBooleanFromArray<TRolesModulePermissionsSelected>({
+          data: rolesModulesPermissions,
+          property: 'idPermission',
+          value: permissionsId.create,
+        }),
+        read: getBooleanFromArray<TRolesModulePermissionsSelected>({
+          data: rolesModulesPermissions,
+          property: 'idPermission',
+          value: permissionsId.read,
+        }),
+        update: getBooleanFromArray<TRolesModulePermissionsSelected>({
+          data: rolesModulesPermissions,
+          property: 'idPermission',
+          value: permissionsId.update,
+        }),
+        delete: getBooleanFromArray<TRolesModulePermissionsSelected>({
+          data: rolesModulesPermissions,
+          property: 'idPermission',
+          value: permissionsId.delete,
+        }),
+      },
+    }));
+  }
+
+  async findByEmail(email: string): Promise<ILoginResponse | null> {
     const user = await this.prisma.users.findFirst({
       where: {
         email,
@@ -84,7 +119,13 @@ export class UserPrismaService {
       );
     }
 
-    return user;
+    return {
+      ...user,
+      roles: {
+        ...user.roles,
+        rolesModules: this.setPermissionsByModules(user.roles.rolesModules),
+      },
+    };
   }
 
   async validateDuplicate(email: string): Promise<void> {
