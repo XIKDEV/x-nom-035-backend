@@ -358,4 +358,15 @@ export class CreateEnterpriseDto {
     ],
   })
   idCity: number;
+
+  @dtoDecorators({
+    baseOptions: {
+      isOptional: true,
+    },
+    swaggerOptions: {
+      format: 'binary',
+      type: 'string',
+    },
+  })
+  logo: Express.Multer.File;
 }

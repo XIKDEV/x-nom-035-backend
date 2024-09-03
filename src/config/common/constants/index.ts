@@ -37,3 +37,14 @@ export const httpExceptionFilter = {
 export const regularExpressionsLocals = {
   rfcEnterprise: /^[A-Z]{3}\d{6}[A-Z0-9]{3}$/,
 };
+
+export const envNames = {
+  firebase_apikey: 'FIREBASE_APIKEY',
+  firebase_authdomain: 'FIREBASE_AUTHDOMAIN',
+  firebase_projectid: 'FIREBASE_PROJECTID',
+  firebase_storagebucket: 'FIREBASE_STORAGEBUCKET',
+  firebase_messagingsenderid: 'FIREBASE_MESSAGINGSENDERID',
+  firebase_appid: 'FIREBASE_APPID',
+  firebase_measurementid: 'FIREBASE_MEASUREMENTID',
+  firebase_api: 'FIREBASE_API',
+};

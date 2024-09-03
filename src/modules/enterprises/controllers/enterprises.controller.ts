@@ -1,16 +1,16 @@
-import { Body, Query } from '@nestjs/common';
+import { Body, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 
 import {
   apiConsumes as apiConsumesConstants,
   apiMethods,
   FindAllDto,
   GuardSwagger,
-  IdDto,
   Swagger,
 } from '@/config';
 
-import { CreateEnterpriseDto } from '../dtos';
+import { CreateEnterpriseDto, UpdateEnterpriseDto } from '../dtos';
 import { EnterprisesService } from '../services';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @GuardSwagger({
   tag: 'enterprises',
@@ -29,15 +29,23 @@ export class EnterprisesController {
     restApi: apiMethods.post,
     apiConsumes: apiConsumesConstants.multipart,
   })
-  create(@Body() createEnterpriseDto: CreateEnterpriseDto) {
-    return this.enterprisesService.create(createEnterpriseDto);
+  @UseInterceptors(FileInterceptor('logo'))
+  create(
+    @Body() createEnterpriseDto: CreateEnterpriseDto,
+    @UploadedFile() logo: Express.Multer.File,
+  ) {
+    return this.enterprisesService.create(createEnterpriseDto, logo);
   }
 
   @Swagger({
     restApi: apiMethods.patch,
     apiConsumes: apiConsumesConstants.multipart,
   })
-  update(@Body() updateEnterpriseDto: CreateEnterpriseDto & IdDto) {
-    return this.enterprisesService.update(updateEnterpriseDto);
+  @UseInterceptors(FileInterceptor('logo'))
+  update(
+    @Body() updateEnterpriseDto: UpdateEnterpriseDto,
+    @UploadedFile() logo: Express.Multer.File,
+  ) {
+    return this.enterprisesService.update(updateEnterpriseDto, logo);
   }
 }
