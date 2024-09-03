@@ -36,7 +36,7 @@ export class FirebaseService {
       const url = await getDownloadURL(storageRef);
       return url;
     } catch (error) {
-      throw new Error(`Error generating signed URL: ${error.message}`);
+      return handlerException(error);
     }
   }
 
