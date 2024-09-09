@@ -12,15 +12,16 @@ import {
   IGlobalId,
 } from '@/config';
 
-import { IdDto } from '../../../config/common/dto/id.dto';
-import { CreateEnterpriseDto } from '../dtos';
+import { CreateEnterpriseDto, UpdateEnterpriseDto } from '../dtos';
 import { EnterprisesPrismaService } from '../helpers';
+import { FirebaseService } from '@/providers/firebase';
 
 @Injectable()
 export class EnterprisesService {
   constructor(
     private readonly enterprisesPrismaService: EnterprisesPrismaService,
     private readonly citiesPrismaService: CitiesPrismaService,
+    private readonly firebaseService: FirebaseService,
   ) {}
 
   async findAll({
@@ -46,16 +47,22 @@ export class EnterprisesService {
     }
   }
 
-  async create({
-    idCity,
-    ...createEnterpriseDto
-  }: CreateEnterpriseDto): Promise<IBaseResponse<IGlobalId>> {
+  async create(
+    { idCity, ...createEnterpriseDto }: CreateEnterpriseDto,
+    logo: Express.Multer.File,
+  ): Promise<IBaseResponse<IGlobalId>> {
     try {
       await this.citiesPrismaService.validateIdCity(idCity);
+
+      const url = await this.firebaseService.uploadImages({
+        logo,
+        path: `enterprises/${createEnterpriseDto.businessName}/logo/`,
+      });
 
       const enterprise = await this.enterprisesPrismaService.create({
         ...createEnterpriseDto,
         idCity,
+        image: url,
       });
 
       return baseResponse({ data: { id: enterprise.id } });
@@ -64,18 +71,35 @@ export class EnterprisesService {
     }
   }
 
-  async update({
-    idCity,
-    id,
-    ...createEnterpriseDto
-  }: CreateEnterpriseDto & IdDto): Promise<IBaseResponse<void>> {
+  async update(
+    { idCity, id, ...createEnterpriseDto }: UpdateEnterpriseDto,
+    logo: Express.Multer.File,
+  ): Promise<IBaseResponse<void>> {
     try {
       await this.citiesPrismaService.validateIdCity(idCity);
+
+      const enterprise = await this.enterprisesPrismaService.validate(id);
+
+      if (enterprise.image || logo === null) {
+        await this.firebaseService.deleteImage({
+          path: enterprise.image,
+        });
+      }
+
+      let url = undefined;
+
+      if (logo) {
+        url = await this.firebaseService.uploadImages({
+          path: `enterprises/${createEnterpriseDto.businessName}/logo/`,
+          logo,
+        });
+      }
 
       await this.enterprisesPrismaService.update({
         data: {
           ...createEnterpriseDto,
           idCity,
+          image: url,
         },
         where: {
           id,

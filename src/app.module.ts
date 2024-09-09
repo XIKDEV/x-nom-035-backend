@@ -12,6 +12,7 @@ import { TypeTestModule } from './catalogs/type-test/type-test.module';
 import { TypesModuleModule } from './catalogs/types-module/types-module.module';
 import { NodemailerModule } from './providers/nodemailer/nodemailer.module';
 import { EnterprisesModule } from './modules/enterprises/enterprises.module';
+import { FirebaseModule } from './providers/firebase/firebase.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { EnterprisesModule } from './modules/enterprises/enterprises.module';
     CatalogsModule,
     NodemailerModule,
     EnterprisesModule,
+    FirebaseModule,
   ],
 })
 export class AppModule {}

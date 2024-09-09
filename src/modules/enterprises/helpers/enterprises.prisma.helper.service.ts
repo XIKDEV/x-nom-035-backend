@@ -45,7 +45,7 @@ export class EnterprisesPrismaService {
     });
   }
 
-  async validate(id: number): Promise<void> {
+  async validate(id: number): Promise<Enterprises> {
     const enterprise = await this.prisma.enterprises.findUnique({
       where: {
         id,
@@ -56,5 +56,7 @@ export class EnterprisesPrismaService {
     if (!enterprise) {
       throw new ConflictException(enterpriseMessages.notFound);
     }
+
+    return enterprise;
   }
 }
