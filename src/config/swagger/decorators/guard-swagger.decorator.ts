@@ -2,7 +2,7 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { applyDecorators } from '@nestjs/common/decorators/core/apply-decorators';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-import { JwtAuthGuard } from '@/providers/auth/guards';
+import { JwtAuthGuard, ModulesGuard } from '@/providers/auth/guards';
 
 import { ITagSwagger } from '../interface';
 
@@ -11,7 +11,7 @@ export const GuardSwagger = ({ hadSecurity = true, tag = '' }: ITagSwagger) => {
 
   if (hadSecurity) {
     decorators.push(ApiBearerAuth());
-    decorators.push(UseGuards(JwtAuthGuard));
+    decorators.push(UseGuards(JwtAuthGuard, ModulesGuard));
   }
 
   return applyDecorators(...decorators);

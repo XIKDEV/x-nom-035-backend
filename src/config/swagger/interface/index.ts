@@ -22,6 +22,7 @@ export interface ISwaggerResponseOptions extends IGuardSwagger {
   apiConsumes?: string;
   status?: number;
   descriptionSwagger?: string;
+  idModule?: number;
 }
 
 export interface ISwagger {

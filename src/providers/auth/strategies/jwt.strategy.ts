@@ -26,7 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: ICommonId) {
-    const user = await this.userPrismaService.findById(payload.id);
+    const user = await this.userPrismaService.findByIdWithRoles(payload.id);
 
     if (!user) {
       throw new UnauthorizedException(

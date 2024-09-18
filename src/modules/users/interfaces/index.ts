@@ -62,6 +62,7 @@ export interface IRoles extends Pick<Roles, 'name' | 'id' | 'description'> {
 export interface ILoginResponse extends TUserAttributesSelected {
   roles: IRoles;
 }
+export type TLoginResponseNoPassword = Omit<ILoginResponse, 'password'>;
 
 export interface IValidRoleAndEnterprise {
   idEnterprise: number;

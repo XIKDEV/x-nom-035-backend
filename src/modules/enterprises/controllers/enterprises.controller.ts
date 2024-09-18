@@ -3,6 +3,7 @@ import { Body, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 import {
   apiConsumes as apiConsumesConstants,
   apiMethods,
+  EModules,
   FindAllDto,
   GuardSwagger,
   Swagger,
@@ -20,6 +21,7 @@ export class EnterprisesController {
 
   @Swagger({
     restApi: apiMethods.get,
+    idModule: EModules.ENTERPRISE,
   })
   findMany(@Query() query: FindAllDto) {
     return this.enterprisesService.findAll(query);
@@ -28,6 +30,7 @@ export class EnterprisesController {
   @Swagger({
     restApi: apiMethods.post,
     apiConsumes: apiConsumesConstants.multipart,
+    idModule: EModules.ENTERPRISE,
   })
   @UseInterceptors(FileInterceptor('logo'))
   create(
@@ -40,6 +43,7 @@ export class EnterprisesController {
   @Swagger({
     restApi: apiMethods.patch,
     apiConsumes: apiConsumesConstants.multipart,
+    idModule: EModules.ENTERPRISE,
   })
   @UseInterceptors(FileInterceptor('logo'))
   update(
