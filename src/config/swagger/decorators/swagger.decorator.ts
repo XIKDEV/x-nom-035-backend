@@ -23,6 +23,7 @@ import {
   IMethodsDecoratorSwagger,
   ISwaggerResponseOptions,
 } from '../interface';
+import { ModulesSecurity } from '@/providers/auth/decorators';
 
 export const Swagger = ({
   status,
@@ -30,6 +31,7 @@ export const Swagger = ({
   link = '',
   apiConsumes = constantsApiConsumes.json,
   hadSecurity = false,
+  idModule,
 }: ISwaggerResponseOptions) => {
   const restOptions: IMethodsDecoratorSwagger = {
     Get,
@@ -76,5 +78,8 @@ export const Swagger = ({
     decorators.push(UseGuards(JwtAuthGuard));
   }
 
+  if (idModule) {
+    decorators.push(ModulesSecurity(idModule));
+  }
   return applyDecorators(...decorators);
 };

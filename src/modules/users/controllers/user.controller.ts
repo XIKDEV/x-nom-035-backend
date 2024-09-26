@@ -2,6 +2,7 @@ import { Body, Query } from '@nestjs/common';
 
 import {
   apiMethods,
+  EModules,
   FindAllDto,
   GuardSwagger,
   IdDto,
@@ -19,6 +20,7 @@ export class UserController {
 
   @Swagger({
     restApi: apiMethods.get,
+    idModule: EModules.USER,
   })
   findAll(@Query() findAllDto: FindAllDto) {
     return this.userService.findAll(findAllDto);
@@ -26,6 +28,7 @@ export class UserController {
 
   @Swagger({
     restApi: apiMethods.patch,
+    idModule: EModules.USER,
   })
   update(@Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(updateUserDto);
@@ -33,6 +36,7 @@ export class UserController {
 
   @Swagger({
     restApi: apiMethods.post,
+    idModule: EModules.USER,
   })
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
@@ -40,6 +44,7 @@ export class UserController {
 
   @Swagger({
     restApi: apiMethods.delete,
+    idModule: EModules.USER,
   })
   delete(@Body() idDto: IdDto) {
     return this.userService.delete(idDto);

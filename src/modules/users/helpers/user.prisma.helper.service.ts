@@ -22,6 +22,7 @@ import {
   IRolesModulesPermissionsBase,
   IRolesModulesPermissionsMapping,
   IValidRoleAndEnterprise,
+  TLoginResponseNoPassword,
   TRolesModulePermissionsSelected,
   TUserAttributesNoPassword,
   TUserAttributesSelected,
@@ -163,6 +164,71 @@ export class UserPrismaService {
     }
 
     return user;
+  }
+
+  async findByIdWithRoles(
+    id: number,
+  ): Promise<TLoginResponseNoPassword | null> {
+    const user = await this.prisma.users.findFirst({
+      where: {
+        id,
+        active: true,
+      },
+      select: {
+        id: true,
+        fullName: true,
+        email: true,
+        name: true,
+        lastname: true,
+        idRole: true,
+        idEnterprise: true,
+        password: false,
+        roles: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            rolesModules: {
+              where: {
+                active: true,
+              },
+              select: {
+                id: true,
+                modules: {
+                  select: {
+                    id: true,
+                    name: true,
+                    component: true,
+                    description: true,
+                    icon: true,
+                    route: true,
+                    idType: true,
+                  },
+                },
+                rolesModulesPermissions: {
+                  select: {
+                    id: true,
+                    idPermission: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException(userMessages.userNotFound);
+    }
+
+    return {
+      ...user,
+      roles: {
+        ...user.roles,
+        rolesModules: this.setPermissionsByModules(user.roles.rolesModules),
+      },
+    };
   }
 
   async findMany({
