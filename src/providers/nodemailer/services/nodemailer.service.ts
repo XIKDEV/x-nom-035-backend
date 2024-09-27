@@ -1,3 +1,6 @@
+/**
+ * @fileoverview The NodemailerService class in TypeScript handles rendering email templates and sending emails using
+nodemailer. */
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import fs from 'fs';
@@ -12,14 +15,37 @@ import { IRenderTemplate, ISearchFileByRoute, ISendEmail } from '../interfaces';
 export class NodemailerService {
   constructor(private readonly configService: ConfigService) {}
 
+  /**
+   * The function `searchFileByRoute` returns the full path of a file based on its name and route.
+   * @param {ISearchFileByRoute} nameFile - The name of the file to search for.
+   * @param {ISearchFileByRoute} route - The route to search for the file in.
+   * @returns the full path of the file by joining the current directory (__dirname), the specified
+   * route, and the name of the file.
+   */
   private searchFileByRoute({ nameFile, route }: ISearchFileByRoute): string {
     return path.join(__dirname, route, nameFile);
   }
 
+  /**
+   * The function `getFile` reads and returns the content of a file specified by the `pathFile`
+   * parameter as a string.
+   * @param pathFile - The `pathFile` parameter in the `getFile` function is a path to a file or a file
+   * descriptor that specifies the location of the file you want to read.
+   * @returns The function `getFile` is returning the content of the file located at the `pathFile` in
+   * string format.
+   */
   private getFile(pathFile: fs.PathOrFileDescriptor): string {
     return fs.readFileSync(pathFile, 'utf8');
   }
 
+  /**
+   * The `renderTemplate` function compiles Handlebars templates for an email using a layout template
+   * and specific email content.
+   * @param  {T} context An object or array to be passed to the Handlebars template for rendering.
+   * @param  {String} template The name file to render on email.
+   * @returns The `renderTemplate` function returns a string that represents the final HTML content
+   * after compiling the layout template with the email template content and context data.
+   */
   renderTemplate<T>({ context, template }: IRenderTemplate<T>): string {
     const layoutPath = this.searchFileByRoute({
       route: '../../../../views/layouts',
@@ -40,6 +66,12 @@ export class NodemailerService {
     return finalHtml;
   }
 
+  /**
+   * The function creates and returns a nodemailer transporter with configuration settings obtained from
+   * a config service.
+   * @returns A nodemailer Transporter with the type of SentMessageInfo for SMTPTransport is being
+   * returned.
+   */
   createTransport(): nodemailer.Transporter<SMTPTransport.SentMessageInfo> {
     return nodemailer.createTransport({
       service: this.configService.get<string>('EMAIL_SERVICE'),
@@ -51,6 +83,15 @@ export class NodemailerService {
     });
   }
 
+  /**
+   * The function `sendEmail` sends an email using a specified template and context to a specified
+   * recipient.
+   * @param  {T} context An object or array to be passed to the Handlebars template for rendering.
+   * @param  {String} template The name file to render on email.
+   * @param {String[]} to An array of email addresses to send the email to.
+   * @param {subject} subject The subject of the email.
+   * @param {String} from The email address to send the email from.
+   */
   async sendEmail<T>({
     template,
     context,
