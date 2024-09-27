@@ -10,6 +10,17 @@ import {
   IDtoDecoratorsValidators,
   IParseValueReturn,
 } from '../interfaces';
+/**
+ * The function `dtoDecorators` in TypeScript generates decorators based on provided options for DTO
+ * properties.
+ * @param {IDtoDecoratorsOptions}  - The `dtoDecorators` function takes in an object as a parameter
+ * with the following properties:
+ * @returns The `dtoDecorators` function returns a set of decorators based on the provided options.
+ * These decorators include `ApiProperty`, `ApiPropertyOptional`, `IsNotEmpty`, `IsOptional`,
+ * `Transform`, and additional decorators based on the `validatorsDtoOptions` array. The function
+ * applies these decorators to the properties of a class based on the provided options and returns the
+ * final set of decorators to be used
+ */
 
 export const dtoDecorators = ({
   swaggerOptions,
