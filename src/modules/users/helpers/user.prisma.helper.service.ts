@@ -32,6 +32,7 @@ import {
   TUserAttributesSelected,
 } from '../interfaces';
 import { userMessages } from '../messages';
+import { BcryptService } from '@/providers';
 
 @Injectable()
 export class UserPrismaService {
@@ -39,6 +40,7 @@ export class UserPrismaService {
     private prisma: PrismaService,
     private readonly rolePrismaService: RolesPrismaService,
     private readonly enterprisesPrismaService: EnterprisesPrismaService,
+    private readonly bcryptService: BcryptService,
   ) {}
 
   /**
@@ -423,6 +425,8 @@ export class UserPrismaService {
   async create(data: CreateUserDto): Promise<TUserAttributesSelected> {
     const passwordRandom = this.generatePassword();
 
+    const passwordEncoded = await this.bcryptService.hash(passwordRandom);
+
     const {
       id,
       email,
@@ -435,7 +439,7 @@ export class UserPrismaService {
     } = await this.prisma.users.create({
       data: {
         ...data,
-        password: passwordRandom,
+        password: passwordEncoded,
       },
       select: {
         id: true,
@@ -457,7 +461,7 @@ export class UserPrismaService {
       lastname,
       idRole,
       idEnterprise,
-      password,
+      password: passwordEncoded,
     };
   }
 }
