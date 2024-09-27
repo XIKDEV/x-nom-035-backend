@@ -24,6 +24,18 @@ import {
   ISwaggerResponseOptions,
 } from '../interface';
 import { ModulesSecurity } from '@/providers/auth/decorators';
+/**
+ * The Swagger function in TypeScript generates Swagger documentation decorators based on specified
+ * options.
+ * @param {ISwaggerResponseOptions}  - The `Swagger` function is a TypeScript function that generates
+ * Swagger documentation for API endpoints based on the provided parameters. Here is an explanation of
+ * each parameter:
+ * @returns The `Swagger` function is returning a set of decorators based on the provided options and
+ * configurations. These decorators are used to define the behavior and metadata of API endpoints in a
+ * Swagger/OpenAPI documentation setup. The returned decorators include ApiResponse,
+ * ApiForbiddenResponse, ApiConflictResponse, ApiUnauthorizedResponse, ApiUnprocessableEntityResponse,
+ * ApiInternalServerErrorResponse, ApiConsumes, and potentially additional decorators based on the `
+ */
 
 export const Swagger = ({
   status,
