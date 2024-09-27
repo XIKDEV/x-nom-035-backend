@@ -1,3 +1,6 @@
+/**
+ * @fileoverview The AuthController class in TypeScript handles authentication-related endpoints with Swagger
+documentation and guards. */
 import { Body } from '@nestjs/common';
 import { Users } from '@prisma/client';
 
