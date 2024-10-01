@@ -1,3 +1,6 @@
+/**
+ * @fileoverview The CatalogsService class in TypeScript is an Injectable service that retrieves static catalog data
+from various Prisma services. */
 import { Injectable } from '@nestjs/common';
 
 import { ModulesPrismaService } from '@/catalogs/modules';
@@ -19,6 +22,14 @@ export class CatalogsService {
     private readonly typesModulePrismaService: TypesModulePrismaService,
   ) {}
 
+  /**
+   * The function `staticCatalog` asynchronously fetches data from multiple Prisma services and returns
+   * a response with the fetched data.
+   * @returns The `staticCatalog` method is returning a base response object that contains data from
+   * various catalog methods. The data includes modules, permissions, roles, states, typeTest, and
+   * typesModule. If an error occurs during the execution of any of the catalog methods, the method will
+   * catch the error and return an exception handler response.
+   */
   async staticCatalog() {
     try {
       const modules = await this.modulesPrismaService.catalog();
