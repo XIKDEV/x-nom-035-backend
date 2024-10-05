@@ -17,6 +17,7 @@ import {
   IPrismaWhereFilter,
   PrismaService,
   unauthorizedExceptionMessages,
+  whereActive,
 } from '@/config';
 import { EnterprisesPrismaService } from '@/modules/enterprises';
 
@@ -101,7 +102,7 @@ export class UserPrismaService {
     const user = await this.prisma.users.findFirst({
       where: {
         email,
-        active: true,
+        ...whereActive,
       },
       select: {
         id: true,
@@ -113,11 +114,13 @@ export class UserPrismaService {
         name: true,
         lastname: true,
         roles: {
+          where: whereActive,
           select: {
             id: true,
             name: true,
             description: true,
             rolesModules: {
+              where: whereActive,
               select: {
                 id: true,
                 modules: {
@@ -132,6 +135,7 @@ export class UserPrismaService {
                   },
                 },
                 rolesModulesPermissions: {
+                  where: whereActive,
                   select: {
                     id: true,
                     idPermission: true,
@@ -171,7 +175,7 @@ export class UserPrismaService {
     const user = await this.prisma.users.findFirst({
       where: {
         email,
-        active: true,
+        ...whereActive,
       },
     });
 
@@ -194,7 +198,7 @@ export class UserPrismaService {
     const user = await this.prisma.users.findFirst({
       where: {
         id,
-        active: true,
+        ...whereActive,
       },
       select: {
         id: true,
@@ -232,7 +236,7 @@ export class UserPrismaService {
     const user = await this.prisma.users.findFirst({
       where: {
         id,
-        active: true,
+        ...whereActive,
       },
       select: {
         id: true,
@@ -244,14 +248,13 @@ export class UserPrismaService {
         idEnterprise: true,
         password: false,
         roles: {
+          where: whereActive,
           select: {
             id: true,
             name: true,
             description: true,
             rolesModules: {
-              where: {
-                active: true,
-              },
+              where: whereActive,
               select: {
                 id: true,
                 modules: {
@@ -266,6 +269,7 @@ export class UserPrismaService {
                   },
                 },
                 rolesModulesPermissions: {
+                  where: whereActive,
                   select: {
                     id: true,
                     idPermission: true,
