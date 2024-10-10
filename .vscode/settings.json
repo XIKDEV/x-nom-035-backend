@@ -25,7 +25,8 @@
     "swagger",
     "decorators",
     "filters",
-    "catalogs"
+    "catalogs",
+    "prisma"
   ],
   "cSpell.language": "en,es-ES"
 }

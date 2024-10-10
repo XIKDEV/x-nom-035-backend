@@ -17,7 +17,6 @@ import {
   IPrismaWhereFilter,
   PrismaService,
   unauthorizedExceptionMessages,
-  whereActive,
 } from '@/config';
 import { EnterprisesPrismaService } from '@/modules/enterprises';
 
@@ -34,6 +33,7 @@ import {
 } from '../interfaces';
 import { userMessages } from '../messages';
 import { BcryptService } from '@/providers';
+import { removeInactive } from '@/config/common/utils/prisma.util';
 
 @Injectable()
 export class UserPrismaService {
@@ -102,7 +102,9 @@ export class UserPrismaService {
     const user = await this.prisma.users.findFirst({
       where: {
         email,
-        ...whereActive,
+        roles: {
+          isNot: null,
+        },
       },
       select: {
         id: true,
@@ -114,13 +116,11 @@ export class UserPrismaService {
         name: true,
         lastname: true,
         roles: {
-          where: whereActive,
           select: {
             id: true,
             name: true,
             description: true,
             rolesModules: {
-              where: whereActive,
               select: {
                 id: true,
                 modules: {
@@ -132,10 +132,10 @@ export class UserPrismaService {
                     icon: true,
                     route: true,
                     idType: true,
+                    active: true,
                   },
                 },
                 rolesModulesPermissions: {
-                  where: whereActive,
                   select: {
                     id: true,
                     idPermission: true,
@@ -154,13 +154,17 @@ export class UserPrismaService {
       );
     }
 
-    return {
+    const userMapping = {
       ...user,
       roles: {
         ...user.roles,
         rolesModules: this.setPermissionsByModules(user.roles.rolesModules),
       },
     };
+
+    const userMap = removeInactive(userMapping);
+
+    return userMap;
   }
 
   /**
@@ -175,7 +179,6 @@ export class UserPrismaService {
     const user = await this.prisma.users.findFirst({
       where: {
         email,
-        ...whereActive,
       },
     });
 
@@ -198,7 +201,6 @@ export class UserPrismaService {
     const user = await this.prisma.users.findFirst({
       where: {
         id,
-        ...whereActive,
       },
       select: {
         id: true,
@@ -236,7 +238,6 @@ export class UserPrismaService {
     const user = await this.prisma.users.findFirst({
       where: {
         id,
-        ...whereActive,
       },
       select: {
         id: true,
@@ -248,13 +249,11 @@ export class UserPrismaService {
         idEnterprise: true,
         password: false,
         roles: {
-          where: whereActive,
           select: {
             id: true,
             name: true,
             description: true,
             rolesModules: {
-              where: whereActive,
               select: {
                 id: true,
                 modules: {
@@ -269,7 +268,6 @@ export class UserPrismaService {
                   },
                 },
                 rolesModulesPermissions: {
-                  where: whereActive,
                   select: {
                     id: true,
                     idPermission: true,
@@ -431,31 +429,23 @@ export class UserPrismaService {
 
     const passwordEncoded = await this.bcryptService.hash(passwordRandom);
 
-    const {
-      id,
-      email,
-      fullName,
-      name,
-      lastname,
-      idRole,
-      idEnterprise,
-      password,
-    } = await this.prisma.users.create({
-      data: {
-        ...data,
-        password: passwordEncoded,
-      },
-      select: {
-        id: true,
-        email: true,
-        fullName: true,
-        name: true,
-        lastname: true,
-        idRole: true,
-        idEnterprise: true,
-        password: true,
-      },
-    });
+    const { id, email, fullName, name, lastname, idRole, idEnterprise } =
+      await this.prisma.users.create({
+        data: {
+          ...data,
+          password: passwordEncoded,
+        },
+        select: {
+          id: true,
+          email: true,
+          fullName: true,
+          name: true,
+          lastname: true,
+          idRole: true,
+          idEnterprise: true,
+          password: true,
+        },
+      });
 
     return {
       id,
