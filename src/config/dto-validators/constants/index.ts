@@ -97,6 +97,10 @@ export const fieldsDto = {
     email: 'email',
     image: 'image',
   },
+  roles: {
+    maxLenght: 'maxLenght',
+    description: 'description',
+  },
 };
 
 export const typeDto = {
@@ -104,6 +108,7 @@ export const typeDto = {
   isInt: 'isInt',
   isEmail: 'isEmail',
   isNumber: 'isNumber',
+  isLenght: '', // falta campo, ver en rama muerta
 };
 
 export const dataType = {
