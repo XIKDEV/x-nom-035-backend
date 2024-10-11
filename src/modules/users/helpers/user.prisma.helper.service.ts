@@ -33,6 +33,7 @@ import {
 } from '../interfaces';
 import { userMessages } from '../messages';
 import { BcryptService } from '@/providers';
+import { removeInactive } from '@/config/common/utils/prisma.util';
 
 @Injectable()
 export class UserPrismaService {
@@ -101,7 +102,9 @@ export class UserPrismaService {
     const user = await this.prisma.users.findFirst({
       where: {
         email,
-        active: true,
+        roles: {
+          isNot: null,
+        },
       },
       select: {
         id: true,
@@ -129,6 +132,7 @@ export class UserPrismaService {
                     icon: true,
                     route: true,
                     idType: true,
+                    active: true,
                   },
                 },
                 rolesModulesPermissions: {
@@ -150,13 +154,17 @@ export class UserPrismaService {
       );
     }
 
-    return {
+    const userMapping = {
       ...user,
       roles: {
         ...user.roles,
         rolesModules: this.setPermissionsByModules(user.roles.rolesModules),
       },
     };
+
+    const userMap = removeInactive(userMapping);
+
+    return userMap;
   }
 
   /**
@@ -171,7 +179,6 @@ export class UserPrismaService {
     const user = await this.prisma.users.findFirst({
       where: {
         email,
-        active: true,
       },
     });
 
@@ -194,7 +201,6 @@ export class UserPrismaService {
     const user = await this.prisma.users.findFirst({
       where: {
         id,
-        active: true,
       },
       select: {
         id: true,
@@ -232,7 +238,6 @@ export class UserPrismaService {
     const user = await this.prisma.users.findFirst({
       where: {
         id,
-        active: true,
       },
       select: {
         id: true,
@@ -249,9 +254,6 @@ export class UserPrismaService {
             name: true,
             description: true,
             rolesModules: {
-              where: {
-                active: true,
-              },
               select: {
                 id: true,
                 modules: {
@@ -427,31 +429,23 @@ export class UserPrismaService {
 
     const passwordEncoded = await this.bcryptService.hash(passwordRandom);
 
-    const {
-      id,
-      email,
-      fullName,
-      name,
-      lastname,
-      idRole,
-      idEnterprise,
-      password,
-    } = await this.prisma.users.create({
-      data: {
-        ...data,
-        password: passwordEncoded,
-      },
-      select: {
-        id: true,
-        email: true,
-        fullName: true,
-        name: true,
-        lastname: true,
-        idRole: true,
-        idEnterprise: true,
-        password: true,
-      },
-    });
+    const { id, email, fullName, name, lastname, idRole, idEnterprise } =
+      await this.prisma.users.create({
+        data: {
+          ...data,
+          password: passwordEncoded,
+        },
+        select: {
+          id: true,
+          email: true,
+          fullName: true,
+          name: true,
+          lastname: true,
+          idRole: true,
+          idEnterprise: true,
+          password: true,
+        },
+      });
 
     return {
       id,
