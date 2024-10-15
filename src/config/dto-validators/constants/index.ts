@@ -109,7 +109,7 @@ export const typeDto = {
   isInt: 'isInt',
   isEmail: 'isEmail',
   isNumber: 'isNumber',
-  isLenght: '', // falta campo, ver en rama muerta
+  isLenght: 'isLenght',
 };
 
 export const dataType = {

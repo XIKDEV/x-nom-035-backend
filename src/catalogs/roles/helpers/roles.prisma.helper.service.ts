@@ -4,6 +4,7 @@ import { ICatalogsAttributes, mappingCatalogs, PrismaService } from '@/config';
 
 import { TRolesNotPropControls } from '../interfaces';
 import { roleMessages } from '../messages';
+import { CreateRoleDto } from '../dto/create-roles.dto';
 
 @Injectable()
 export class RolesPrismaService {
@@ -36,5 +37,22 @@ export class RolesPrismaService {
     }
 
     return role;
+  }
+
+  async validateDuplicate(name: string): Promise<void> {
+    const roles = await this.prismaService.roles.findFirst({
+      where: {
+        name,
+        active: true,
+      },
+    });
+    if (roles) {
+      throw new ConflictException(roleMessages.roleDuplicate);
+    }
+  }
+
+  async create(data: CreateRoleDto) {
+    const role = await this.prismaService.roles.create({ data: { ...data } });
+    return { role };
   }
 }

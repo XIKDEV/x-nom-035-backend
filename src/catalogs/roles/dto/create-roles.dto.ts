@@ -59,5 +59,4 @@ export class CreateRoleDto {
     },
   })
   active: boolean;
-  //name, description, active
 }
