@@ -27,7 +27,8 @@
     "filters",
     "catalogs",
     "contracts",
-    "general"
+    "general",
+    "prisma"
   ],
   "cSpell.language": "en,es-ES"
 }
