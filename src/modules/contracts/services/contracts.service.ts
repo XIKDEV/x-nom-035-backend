@@ -2,7 +2,14 @@
 import { Injectable } from '@nestjs/common';
 
 import { TypeTestPrismaService } from '@/catalogs';
-import { baseResponse, handlerException } from '@/config';
+import {
+  baseResponse,
+  FindAllDto,
+  getPaginationFields,
+  getWhereFilter,
+  handlerException,
+  IdEnterpriseFindAllDto,
+} from '@/config';
 import { EnterprisesPrismaService } from '@/modules/enterprises';
 
 import { FirebaseService } from '../../../providers/firebase/services/firebase.service';
@@ -58,6 +65,37 @@ export class ContractsService {
       });
 
       return baseResponse({});
+    } catch (error) {
+      return handlerException(error);
+    }
+  }
+
+  /**
+   * this method has the responsibility to find all contracts by enterprise and set a pagination
+   * @param {IdEnterpriseFindAllDto}  - Properties to find all contracts by enterprise
+   * @returns A base response with the contracts found
+   */
+  async findAll({
+    idEnterprise,
+    like,
+    likeField,
+    page,
+    results,
+  }: IdEnterpriseFindAllDto) {
+    try {
+      const { skip, take } = getPaginationFields({ page, results });
+
+      const where = { idEnterprise, ...getWhereFilter({ likeField, like }) };
+
+      const contracts = await this.contractsPrismaService.findMany({
+        where,
+        skip,
+        take,
+      });
+
+      return baseResponse({
+        data: contracts,
+      });
     } catch (error) {
       return handlerException(error);
     }
