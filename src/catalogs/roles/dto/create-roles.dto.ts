@@ -49,7 +49,15 @@ export class CreateRoleDto {
     },
   })
   descripction: string;
-  @dtoDecorators({})
+  @dtoDecorators({
+    swaggerOptions: {
+      example: 'Para saber si el rol es activo o no',
+      descriptionOpt: 'Descripcion del estatus del rol',
+    },
+    baseOptions: {
+      message: dtoValidatorMessage.requiredField(fieldsDto.roles.active),
+    },
+  })
   active: boolean;
   //name, description, active
 }

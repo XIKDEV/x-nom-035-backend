@@ -100,6 +100,7 @@ export const fieldsDto = {
   roles: {
     maxLenght: 'maxLenght',
     description: 'description',
+    active: 'active',
   },
 };
 
