@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 
 import { ICatalogsAttributes, mappingCatalogs, PrismaService } from '@/config';
 
 import { TTypeTest } from '../interfaces';
+import { typeTestMessages } from '../messages';
 
 @Injectable()
 export class TypeTestPrismaService {
@@ -21,5 +22,17 @@ export class TypeTestPrismaService {
     });
 
     return mappingTypeTest;
+  }
+
+  async validate(id: number): Promise<void> {
+    const typeTest = await this.prismaService.typeTest.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!typeTest) {
+      throw new ConflictException(typeTestMessages.notFound);
+    }
   }
 }

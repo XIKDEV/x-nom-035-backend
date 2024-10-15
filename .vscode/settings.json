@@ -25,7 +25,8 @@
     "swagger",
     "decorators",
     "filters",
-    "catalogs"
+    "catalogs",
+    "contracts"
   ],
   "cSpell.language": "en,es-ES"
 }

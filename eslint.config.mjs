@@ -77,7 +77,6 @@ export default [
       camelcase: 'off',
       'no-useless-constructor': 'off',
       'dot-notation': [1, { allowPattern: '^[a-zA-Z]+(_[a-zA-Z]+)*$' }],
-      'no-undef': ['error', { Express: true }],
     },
   },
   {

@@ -13,9 +13,10 @@ import {
 } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 
-import { IPath, ISetNameFile, IUploadFile } from '../interfaces';
-import { contentType } from '../constants';
 import { envNames, handlerException } from '@/config';
+
+import { contentType } from '../constants';
+import { IPath, ISetNameFile, IUploadFile } from '../interfaces';
 
 @Injectable()
 export class FirebaseService {

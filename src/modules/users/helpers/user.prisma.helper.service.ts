@@ -19,6 +19,7 @@ import {
   unauthorizedExceptionMessages,
 } from '@/config';
 import { EnterprisesPrismaService } from '@/modules/enterprises';
+import { BcryptService } from '@/providers';
 
 import { CreateUserDto } from '../dto';
 import {
@@ -32,7 +33,6 @@ import {
   TUserAttributesSelected,
 } from '../interfaces';
 import { userMessages } from '../messages';
-import { BcryptService } from '@/providers';
 
 @Injectable()
 export class UserPrismaService {
@@ -427,31 +427,23 @@ export class UserPrismaService {
 
     const passwordEncoded = await this.bcryptService.hash(passwordRandom);
 
-    const {
-      id,
-      email,
-      fullName,
-      name,
-      lastname,
-      idRole,
-      idEnterprise,
-      password,
-    } = await this.prisma.users.create({
-      data: {
-        ...data,
-        password: passwordEncoded,
-      },
-      select: {
-        id: true,
-        email: true,
-        fullName: true,
-        name: true,
-        lastname: true,
-        idRole: true,
-        idEnterprise: true,
-        password: true,
-      },
-    });
+    const { id, email, fullName, name, lastname, idRole, idEnterprise } =
+      await this.prisma.users.create({
+        data: {
+          ...data,
+          password: passwordEncoded,
+        },
+        select: {
+          id: true,
+          email: true,
+          fullName: true,
+          name: true,
+          lastname: true,
+          idRole: true,
+          idEnterprise: true,
+          password: true,
+        },
+      });
 
     return {
       id,
