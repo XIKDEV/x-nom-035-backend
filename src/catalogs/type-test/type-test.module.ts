@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { PrismaModule } from '@/config';
 
-import { TypeTestPrismaService } from './helpers';
+import { TypeTestPrismaService } from './services';
 
 @Module({
   imports: [PrismaModule],

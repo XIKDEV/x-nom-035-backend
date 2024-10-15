@@ -26,7 +26,8 @@
     "decorators",
     "filters",
     "catalogs",
-    "contracts"
+    "contracts",
+    "general"
   ],
   "cSpell.language": "en,es-ES"
 }
