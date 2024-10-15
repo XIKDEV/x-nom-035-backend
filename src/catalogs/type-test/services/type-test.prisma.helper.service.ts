@@ -9,6 +9,10 @@ import { typeTestMessages } from '../messages';
 export class TypeTestPrismaService {
   constructor(private prismaService: PrismaService) {}
 
+  /**
+   * This method has the responsibility to get all type test
+   * @returns The `catalog` method returns a Promise that resolves to an array of `ICatalogsAttributes`
+   */
   async catalog(): Promise<ICatalogsAttributes[]> {
     const typeTest = await this.prismaService.typeTest.findMany({
       select: {
@@ -24,6 +28,10 @@ export class TypeTestPrismaService {
     return mappingTypeTest;
   }
 
+  /**
+   * This method has the responsibility to validate if the type test exists
+   * @param {number}  - Param to get the type test by id
+   */
   async validate(id: number): Promise<void> {
     const typeTest = await this.prismaService.typeTest.findUnique({
       where: {

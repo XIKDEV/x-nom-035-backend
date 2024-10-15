@@ -18,6 +18,13 @@ export class ContractsService {
     private readonly typeTestPrismaService: TypeTestPrismaService,
   ) {}
 
+  /**
+   * This method has the responsibility to create a contract with validation like the enterprise and the type test and upload
+   * the contract to firebase
+   * @param {CreateContractsDto}  - Properties to create a contract
+   * @param {Express.Multer.File}  - File to upload
+   * @returns The `create` method return a success message or throw if the method had an error
+   */
   async create(
     {
       idEnterprise,
