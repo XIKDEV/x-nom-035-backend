@@ -8,6 +8,7 @@ import {
   getPaginationFields,
   getWhereFilter,
   handlerException,
+  IdDto,
   IdEnterpriseFindAllDto,
 } from '@/config';
 import { EnterprisesPrismaService } from '@/modules/enterprises';
@@ -96,6 +97,16 @@ export class ContractsService {
       return baseResponse({
         data: contracts,
       });
+    } catch (error) {
+      return handlerException(error);
+    }
+  }
+
+  async remove({ id }: IdDto) {
+    try {
+      const contract = await this.contractsPrismaService.findAndValidate(id);
+
+      return baseResponse({});
     } catch (error) {
       return handlerException(error);
     }
