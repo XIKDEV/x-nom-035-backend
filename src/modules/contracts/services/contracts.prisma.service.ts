@@ -1,9 +1,14 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
-import { IPrismaOptions, IPrismaUpdate, PrismaService } from '@/config';
+import {
+  IPrismaOptions,
+  IPrismaUpdate,
+  PrismaService,
+  whereActive,
+} from '@/config';
 
-import { ICreateContractsDto } from '../interfaces';
+import { ICreateContractsDto, IGetOne } from '../interfaces';
 import { contractsMessages } from '../messages';
 
 @Injectable()
@@ -22,12 +27,14 @@ export class ContractsPrismaService {
     return await this.prisma.contracts.findMany(options);
   }
 
-  async findAndValidate(id: number): Promise<void> {
+  async findAndValidate(id: number): Promise<IGetOne> {
     const contract = await this.prisma.contracts.findUnique({ where: { id } });
 
     if (!contract) {
       throw new ConflictException(contractsMessages.notFound);
     }
+
+    return contract;
   }
 
   async update({
@@ -42,7 +49,17 @@ export class ContractsPrismaService {
   >) {
     await this.prisma.contracts.update({
       data,
-      where,
+      where: {
+        ...where,
+        ...whereActive,
+      },
+    });
+  }
+
+  async remove(id: number) {
+    await this.prisma.contracts.update({
+      data: { active: false },
+      where: { id, ...whereActive },
     });
   }
 }

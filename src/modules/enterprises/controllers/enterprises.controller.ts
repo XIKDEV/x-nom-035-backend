@@ -1,4 +1,6 @@
+/* eslint-disable no-undef */
 import { Body, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 import {
   apiConsumes as apiConsumesConstants,
@@ -11,7 +13,6 @@ import {
 
 import { CreateEnterpriseDto, UpdateEnterpriseDto } from '../dtos';
 import { EnterprisesService } from '../services';
-import { FileInterceptor } from '@nestjs/platform-express';
 
 @GuardSwagger({
   tag: 'enterprises',
