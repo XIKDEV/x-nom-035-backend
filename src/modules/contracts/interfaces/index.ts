@@ -7,3 +7,7 @@ export interface ICreateContractsDto {
   endDate: Date;
   url: string;
 }
+
+export interface IGetOne extends ICreateContractsDto {
+  id: number;
+}

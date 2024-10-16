@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { Injectable } from '@nestjs/common';
 import { Enterprises } from '@prisma/client';
 
@@ -11,10 +12,10 @@ import {
   IBaseResponse,
   IGlobalId,
 } from '@/config';
+import { FirebaseService } from '@/providers/firebase';
 
 import { CreateEnterpriseDto, UpdateEnterpriseDto } from '../dtos';
 import { EnterprisesPrismaService } from '../helpers';
-import { FirebaseService } from '@/providers/firebase';
 
 @Injectable()
 export class EnterprisesService {
@@ -86,7 +87,7 @@ export class EnterprisesService {
         });
       }
 
-      let url = undefined;
+      let url;
 
       if (logo) {
         url = await this.firebaseService.uploadImages({
