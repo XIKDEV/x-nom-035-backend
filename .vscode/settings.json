@@ -26,6 +26,8 @@
     "decorators",
     "filters",
     "catalogs",
+    "contracts",
+    "general",
     "prisma"
   ],
   "cSpell.language": "en,es-ES"

@@ -18,7 +18,9 @@ import {
   PrismaService,
   unauthorizedExceptionMessages,
 } from '@/config';
+import { removeInactive } from '@/config/common/utils/prisma.util';
 import { EnterprisesPrismaService } from '@/modules/enterprises';
+import { BcryptService } from '@/providers';
 
 import { CreateUserDto } from '../dto';
 import {
@@ -32,8 +34,6 @@ import {
   TUserAttributesSelected,
 } from '../interfaces';
 import { userMessages } from '../messages';
-import { BcryptService } from '@/providers';
-import { removeInactive } from '@/config/common/utils/prisma.util';
 
 @Injectable()
 export class UserPrismaService {
