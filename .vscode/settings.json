@@ -28,7 +28,8 @@
     "catalogs",
     "contracts",
     "general",
-    "prisma"
+    "prisma",
+    "sections"
   ],
   "cSpell.language": "en,es-ES"
 }

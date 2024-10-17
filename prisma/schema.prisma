@@ -141,13 +141,13 @@ model States {
 }
 
 model TypeTest {
-  id                Int                 @id @default(autoincrement())
-  name              String?             @db.VarChar(50)
-  active            Boolean?            @default(true)
-  createdAt         DateTime?           @default(dbgenerated("timezone('America/Tijuana'::text, now())")) @map("created_at") @db.Date
-  updatedAt         DateTime?           @map("updated_at") @db.Date
-  contracts         Contracts[]
-  sectionsQuestions SectionsQuestions[]
+  id        Int         @id @default(autoincrement())
+  name      String?     @db.VarChar(50)
+  active    Boolean?    @default(true)
+  createdAt DateTime?   @default(dbgenerated("timezone('America/Tijuana'::text, now())")) @map("created_at") @db.Date
+  updatedAt DateTime?   @map("updated_at") @db.Date
+  contracts Contracts[]
+  sections  Sections[]
 
   @@map("type_test")
 }
@@ -189,19 +189,19 @@ model Contracts {
 }
 
 model Questions {
-  id                Int                @id @default(autoincrement())
-  question          String?            @db.VarChar(255)
-  idSectionQuestion Int?               @map("id_section_question")
+  id                Int       @id @default(autoincrement())
+  name              String?   @db.VarChar(255)
+  idSectionQuestion Int?      @map("id_section_question")
   active            Boolean?
-  createdAt         DateTime?          @default(now()) @map("created_at") @db.Date
-  updatedAt         DateTime?          @map("updated_at") @db.Date
-  sectionsQuestions SectionsQuestions? @relation(fields: [idSectionQuestion], references: [id], onDelete: NoAction, onUpdate: Restrict, map: "section_questionFK")
+  createdAt         DateTime? @default(now()) @map("created_at") @db.Date
+  updatedAt         DateTime? @map("updated_at") @db.Date
+  sectionsQuestions Sections? @relation(fields: [idSectionQuestion], references: [id], onDelete: NoAction, onUpdate: Restrict, map: "section_questionFK")
 
   @@map("questions")
 }
 
-model SectionsQuestions {
-  id         Int         @id @default(autoincrement())
+model Sections {
+  id         Int         @id(map: "sections_questions_pkey") @default(autoincrement())
   name       String?     @db.VarChar(255)
   idTypeTest Int?        @map("id_type_test")
   active     Boolean?
@@ -210,5 +210,5 @@ model SectionsQuestions {
   questions  Questions[]
   typeTest   TypeTest?   @relation(fields: [idTypeTest], references: [id], onDelete: NoAction, onUpdate: Restrict, map: "type_test_sectionFK")
 
-  @@map("sections_questions")
+  @@map("sections")
 }
