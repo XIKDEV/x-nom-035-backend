@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { ModulesModule } from '../modules';
 import { PermissionsModule } from '../permissions';
 import { RolesModule } from '../roles';
+import { SectionsModule } from '../sections';
 import { StatesModule } from '../states';
 import { TypeTestModule } from '../type-test';
 import { TypesModuleModule } from '../types-module';
@@ -19,6 +20,7 @@ import { CatalogsService } from './services';
     StatesModule,
     TypeTestModule,
     TypesModuleModule,
+    SectionsModule,
   ],
 })
 export class CatalogsModule {}

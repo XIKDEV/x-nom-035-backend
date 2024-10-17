@@ -12,6 +12,7 @@ import {
 } from './catalogs';
 import { ContractsModule, EnterprisesModule, UserModule } from './modules';
 import { AuthModule, FirebaseModule, NodemailerModule } from './providers';
+import { SectionsModule } from './catalogs/sections/sections.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { AuthModule, FirebaseModule, NodemailerModule } from './providers';
     EnterprisesModule,
     FirebaseModule,
     ContractsModule,
+    SectionsModule,
   ],
 })
 export class AppModule {}

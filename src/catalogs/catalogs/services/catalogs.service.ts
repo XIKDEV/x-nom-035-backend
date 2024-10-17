@@ -6,6 +6,7 @@ import { Injectable } from '@nestjs/common';
 import { ModulesPrismaService } from '@/catalogs/modules';
 import { PermissionsPrismaService } from '@/catalogs/permissions';
 import { RolesPrismaService } from '@/catalogs/roles';
+import { SectionsPrismaService } from '@/catalogs/sections';
 import { StatesPrismaService } from '@/catalogs/states';
 import { TypeTestPrismaService } from '@/catalogs/type-test';
 import { TypesModulePrismaService } from '@/catalogs/types-module';
@@ -20,6 +21,7 @@ export class CatalogsService {
     private readonly statesPrismaService: StatesPrismaService,
     private readonly typeTestPrismasService: TypeTestPrismaService,
     private readonly typesModulePrismaService: TypesModulePrismaService,
+    private readonly sectionsPrismaService: SectionsPrismaService,
   ) {}
 
   /**
@@ -38,12 +40,14 @@ export class CatalogsService {
       const states = await this.statesPrismaService.catalog();
       const typeTest = await this.typeTestPrismasService.catalog();
       const typesModule = await this.typesModulePrismaService.catalog();
+      const sections = await this.sectionsPrismaService.catalog();
 
       return baseResponse({
         data: {
           modules,
           permissions,
           roles,
+          sections,
           states,
           typeTest,
           typesModule,
