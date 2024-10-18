@@ -1,20 +1,19 @@
-import { baseResponse, handlerException, PrismaService } from '@/config';
+import { baseResponse, handlerException } from '@/config';
 import { Injectable } from '@nestjs/common';
-import { CreateRoleDto } from './dto/create-roles.dto';
-import { RolesPrismaService } from './helpers';
+import { CreateRoleDto } from '../dto/create-roles.dto';
+import { RolesPrismaService } from '../helpers';
 
 @Injectable()
 export class RolesService {
   constructor(private readonly rolesPrismaService: RolesPrismaService) {}
 
-  async create({ name, descripction, active }: CreateRoleDto) {
+  async create({ name, description }: CreateRoleDto) {
     try {
       await this.rolesPrismaService.validateDuplicate(name);
 
       const data = await this.rolesPrismaService.create({
         name,
-        descripction,
-        active,
+        description,
       });
       return baseResponse({ data });
     } catch (error) {

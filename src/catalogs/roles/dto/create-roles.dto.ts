@@ -25,16 +25,6 @@ export class CreateRoleDto {
           ),
         },
       },
-      {
-        typeDto: typeDto.isLenght,
-        options: {
-          message: dtoValidatorMessage.wrongTypeField(
-            fieldsDto.roles.maxLenght,
-            dataType.string,
-          ),
-        },
-        num: 15,
-      },
     ],
   })
   name: string;
@@ -47,16 +37,17 @@ export class CreateRoleDto {
     baseOptions: {
       message: dtoValidatorMessage.requiredField(fieldsDto.roles.description),
     },
+    validatorsDtoOptions: [
+      {
+        typeDto: typeDto.isString,
+        options: {
+          message: dtoValidatorMessage.wrongTypeField(
+            fieldsDto.general.name,
+            dataType.string,
+          ),
+        },
+      },
+    ],
   })
-  descripction: string;
-  @dtoDecorators({
-    swaggerOptions: {
-      example: 'Para saber si el rol es activo o no',
-      descriptionOpt: 'Descripcion del estatus del rol',
-    },
-    baseOptions: {
-      message: dtoValidatorMessage.requiredField(fieldsDto.roles.active),
-    },
-  })
-  active: boolean;
+  description: string;
 }

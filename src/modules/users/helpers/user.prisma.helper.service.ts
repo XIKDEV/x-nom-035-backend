@@ -427,31 +427,23 @@ export class UserPrismaService {
 
     const passwordEncoded = await this.bcryptService.hash(passwordRandom);
 
-    const {
-      id,
-      email,
-      fullName,
-      name,
-      lastname,
-      idRole,
-      idEnterprise,
-      password,
-    } = await this.prisma.users.create({
-      data: {
-        ...data,
-        password: passwordEncoded,
-      },
-      select: {
-        id: true,
-        email: true,
-        fullName: true,
-        name: true,
-        lastname: true,
-        idRole: true,
-        idEnterprise: true,
-        password: true,
-      },
-    });
+    const { id, email, fullName, name, lastname, idRole, idEnterprise } =
+      await this.prisma.users.create({
+        data: {
+          ...data,
+          password: passwordEncoded,
+        },
+        select: {
+          id: true,
+          email: true,
+          fullName: true,
+          name: true,
+          lastname: true,
+          idRole: true,
+          idEnterprise: true,
+          password: true,
+        },
+      });
 
     return {
       id,
