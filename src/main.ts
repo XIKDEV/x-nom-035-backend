@@ -3,7 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import fs from 'fs';
 import Handlebars from 'handlebars';
-import { resolve } from 'path';
+import { join, resolve } from 'path';
 
 import { AppModule } from './app.module';
 import { HttpExceptionsFilter, nodeEnv } from './config';
@@ -52,8 +52,14 @@ async function bootstrap() {
       .setVersion('1.0')
       .addBearerAuth()
       .build();
+    const customCss = fs.readFileSync(
+      join(__dirname, '../public/swagger.css'),
+      'utf8',
+    );
     const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('api/v3/swagger', app, document);
+    SwaggerModule.setup('api/v3/swagger', app, document, {
+      customCss,
+    });
   }
 
   await app.listen(process.env.PORT || 3000);
