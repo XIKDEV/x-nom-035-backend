@@ -4,7 +4,6 @@ import { Injectable } from '@nestjs/common';
 import { TypeTestPrismaService } from '@/catalogs';
 import {
   baseResponse,
-  FindAllDto,
   getPaginationFields,
   getWhereFilter,
   handlerException,
