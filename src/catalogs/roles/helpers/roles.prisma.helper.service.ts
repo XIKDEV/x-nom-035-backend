@@ -2,6 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 
 import { ICatalogsAttributes, mappingCatalogs, PrismaService } from '@/config';
 
+import { CreateRoleDto } from '../dto/create-roles.dto';
 import { TRolesNotPropControls } from '../interfaces';
 import { roleMessages } from '../messages';
 
@@ -36,5 +37,21 @@ export class RolesPrismaService {
     }
 
     return role;
+  }
+
+  async validateDuplicate(name: string): Promise<void> {
+    const roles = await this.prismaService.roles.findFirst({
+      where: {
+        name,
+      },
+    });
+    if (roles) {
+      throw new ConflictException(roleMessages.roleDuplicate);
+    }
+  }
+
+  async create(data: CreateRoleDto) {
+    const role = await this.prismaService.roles.create({ data });
+    return { role };
   }
 }

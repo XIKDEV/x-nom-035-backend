@@ -99,6 +99,10 @@ export const fieldsDto = {
     email: 'email',
     image: 'image',
   },
+  roles: {
+    maxLenght: 'maxLenght',
+    description: 'description',
+  },
   contracts: {
     employeesCount: 'employeesCount',
     idTypeTest: 'idTypeTest',
@@ -112,6 +116,7 @@ export const typeDto = {
   isInt: 'isInt',
   isEmail: 'isEmail',
   isNumber: 'isNumber',
+  isLenght: 'isLenght',
 };
 
 export const dataType = {
