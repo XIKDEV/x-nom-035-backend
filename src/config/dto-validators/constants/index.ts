@@ -69,6 +69,8 @@ export const fieldsDto = {
     name: 'name',
     lastname: 'lastname',
     rfc: 'rfc',
+    title: 'title',
+    idEnterprise: 'idEnterprise',
   },
   pagination: {
     page: 'page',
@@ -100,7 +102,12 @@ export const fieldsDto = {
   roles: {
     maxLenght: 'maxLenght',
     description: 'description',
-    active: 'active',
+  },
+  contracts: {
+    employeesCount: 'employeesCount',
+    idTypeTest: 'idTypeTest',
+    startDate: 'startDate',
+    endDate: 'endDate',
   },
 };
 

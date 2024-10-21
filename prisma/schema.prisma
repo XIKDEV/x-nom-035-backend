@@ -20,46 +20,28 @@ model Cities {
   @@map("cities")
 }
 
-model Contrats {
-  id             Int         @id @default(autoincrement())
-  title          String      @db.VarChar(150)
-  employeesCount Int         @map("employees_count")
-  idTypeTest     Int         @map("id_type_test")
-  idEnterprise   Int         @map("id_enterprise")
-  startDate      DateTime    @map("start_date") @db.Date
-  endDate        DateTime?   @map("end_date") @db.Date
-  url            String?     @db.VarChar(255)
-  active         Boolean?    @default(true)
-  createdAt      DateTime?   @default(dbgenerated("timezone('America/Tijuana'::text, now())")) @map("created_at") @db.Date
-  updatedAt      DateTime?   @map("updated_at") @db.Date
-  typeTest       TypeTest    @relation(fields: [idTypeTest], references: [id], onUpdate: Restrict)
-  enterprises    Enterprises @relation(fields: [idEnterprise], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_id_enterprise")
-
-  @@map("contrats")
-}
-
 model Enterprises {
-  id                  Int        @id @default(autoincrement())
-  businessName        String     @map("business_name") @db.VarChar(100)
-  comercialName       String     @map("comercial_name") @db.VarChar(100)
-  legalRepresentative String     @map("legal_representative") @db.VarChar(100)
-  rfc                 String     @map("RFC") @db.VarChar(100)
-  street              String     @db.VarChar(100)
-  exteriorNumber      String     @map("exterior_number") @db.VarChar(100)
-  interiorNumber      String     @map("interior_number") @db.VarChar(100)
-  suburb              String     @db.VarChar(100)
-  postalCode          Int        @map("postal_code")
-  enterpriseType      String     @map("enterprise_type") @db.VarChar(100)
-  turnEnterprise      String     @map("turn_enterprise") @db.VarChar(100)
-  tellphone           String     @db.VarChar(100)
-  email               String     @db.VarChar(100)
-  image               String?    @db.VarChar(250)
-  active              Boolean?   @default(true)
-  createdAt           DateTime?  @default(now()) @map("created_at") @db.Date
-  updatedAt           DateTime?  @map("updated_at") @db.Date
-  idCity              Int?       @map("id_city")
-  contrats            Contrats[]
-  cities              Cities?    @relation(fields: [idCity], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_city")
+  id                  Int         @id @default(autoincrement())
+  businessName        String      @map("business_name") @db.VarChar(100)
+  comercialName       String      @map("comercial_name") @db.VarChar(100)
+  legalRepresentative String      @map("legal_representative") @db.VarChar(100)
+  rfc                 String      @map("RFC") @db.VarChar(100)
+  street              String      @db.VarChar(100)
+  exteriorNumber      String      @map("exterior_number") @db.VarChar(100)
+  interiorNumber      String      @map("interior_number") @db.VarChar(100)
+  suburb              String      @db.VarChar(100)
+  postalCode          Int         @map("postal_code")
+  enterpriseType      String      @map("enterprise_type") @db.VarChar(100)
+  turnEnterprise      String      @map("turn_enterprise") @db.VarChar(100)
+  tellphone           String      @db.VarChar(100)
+  email               String      @db.VarChar(100)
+  image               String?     @db.VarChar(250)
+  active              Boolean?    @default(true)
+  createdAt           DateTime?   @default(now()) @map("created_at") @db.Date
+  updatedAt           DateTime?   @map("updated_at") @db.Date
+  idCity              Int?        @map("id_city")
+  contracts           Contracts[]
+  cities              Cities?     @relation(fields: [idCity], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_city")
   users               Users[]
 
   @@map("enterprises")
@@ -159,12 +141,13 @@ model States {
 }
 
 model TypeTest {
-  id        Int        @id @default(autoincrement())
-  name      String?    @db.VarChar(50)
-  active    Boolean?   @default(true)
-  createdAt DateTime?  @default(dbgenerated("timezone('America/Tijuana'::text, now())")) @map("created_at") @db.Date
-  updatedAt DateTime?  @map("updated_at") @db.Date
-  contrats  Contrats[]
+  id        Int         @id @default(autoincrement())
+  name      String?     @db.VarChar(50)
+  active    Boolean?    @default(true)
+  createdAt DateTime?   @default(dbgenerated("timezone('America/Tijuana'::text, now())")) @map("created_at") @db.Date
+  updatedAt DateTime?   @map("updated_at") @db.Date
+  contracts Contracts[]
+  sections  Sections[]
 
   @@map("type_test")
 }
@@ -185,4 +168,47 @@ model Users {
   enterprises  Enterprises? @relation(fields: [idEnterprise], references: [id], onDelete: Restrict, onUpdate: Restrict)
 
   @@map("users")
+}
+
+model Contracts {
+  id             Int         @id(map: "contrats_pkey") @default(autoincrement())
+  title          String      @db.VarChar(150)
+  employeesCount Int         @map("employees_count")
+  idTypeTest     Int         @map("id_type_test")
+  idEnterprise   Int         @map("id_enterprise")
+  startDate      DateTime    @map("start_date") @db.Date
+  endDate        DateTime?   @map("end_date") @db.Date
+  url            String?
+  active         Boolean?    @default(true)
+  createdAt      DateTime?   @default(dbgenerated("timezone('America/Tijuana'::text, now())")) @map("created_at") @db.Date
+  updatedAt      DateTime?   @map("updated_at") @db.Date
+  typeTest       TypeTest    @relation(fields: [idTypeTest], references: [id], onUpdate: Restrict, map: "contrats_id_type_test_fkey")
+  enterprises    Enterprises @relation(fields: [idEnterprise], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_id_enterprise")
+
+  @@map("contracts")
+}
+
+model Questions {
+  id                Int       @id @default(autoincrement())
+  name              String?   @db.VarChar(255)
+  idSectionQuestion Int?      @map("id_section_question")
+  active            Boolean?
+  createdAt         DateTime? @default(now()) @map("created_at") @db.Date
+  updatedAt         DateTime? @map("updated_at") @db.Date
+  sectionsQuestions Sections? @relation(fields: [idSectionQuestion], references: [id], onDelete: NoAction, onUpdate: Restrict, map: "section_questionFK")
+
+  @@map("questions")
+}
+
+model Sections {
+  id         Int         @id(map: "sections_questions_pkey") @default(autoincrement())
+  name       String?     @db.VarChar(255)
+  idTypeTest Int?        @map("id_type_test")
+  active     Boolean?
+  createdAt  DateTime?   @default(now()) @map("created_at") @db.Date
+  updatedAt  DateTime?   @map("updated_at") @db.Date
+  questions  Questions[]
+  typeTest   TypeTest?   @relation(fields: [idTypeTest], references: [id], onDelete: NoAction, onUpdate: Restrict, map: "type_test_sectionFK")
+
+  @@map("sections")
 }

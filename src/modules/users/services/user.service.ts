@@ -13,9 +13,7 @@ import {
   IBaseResponse,
   IdDto,
 } from '@/config';
-import { templates } from '@/providers/nodemailer/constants';
-import { ISendNewUser } from '@/providers/nodemailer/interfaces';
-import { NodemailerService } from '@/providers/nodemailer/services';
+import { ISendNewUser, NodemailerService, templates } from '@/providers';
 
 import { CreateUserDto, UpdateUserDto } from '../dto';
 import { UserPrismaService } from '../helpers';

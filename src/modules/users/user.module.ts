@@ -2,13 +2,12 @@ import { Module } from '@nestjs/common';
 
 import { RolesModule } from '@/catalogs';
 import { PrismaModule } from '@/config';
-import { NodemailerModule } from '@/providers/nodemailer/nodemailer.module';
+import { BcryptModule, NodemailerModule } from '@/providers';
 
 import { EnterprisesModule } from '../enterprises';
 import { UserController } from './controllers';
 import { UserPrismaService } from './helpers';
 import { UserService } from './services';
-import { BcryptModule } from '@/providers';
 
 @Module({
   imports: [

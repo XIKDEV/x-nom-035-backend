@@ -32,7 +32,26 @@ Este proyecto es para simplificar a las empresas el uso de un cuestionario para 
 $ bun install
 ```
 
+## Descargar modelos de DB a esquema de prisma
+
+```bash
+$ bun prisma:pull
+```
+
+## Realizar Camel Case a los esquemas
+
+1. Instalar de forma global la libreria: (https://www.npmjs.com/package/prisma-case-format/v/1.5.0)
+2. Entrar a la carpeta prisma desde raiz del proyect ` cd prisma`
+3. Ejecutar comando
+
+```bash
+$  prisma-case-format
+```
+
+3. Regresar a la raiz `cd..`
+
 ## Generar modelos de prisma
+
 ```bash
 $ bun prisma:generate
 ```

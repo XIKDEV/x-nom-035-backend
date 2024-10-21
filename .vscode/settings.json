@@ -25,7 +25,11 @@
     "swagger",
     "decorators",
     "filters",
-    "catalogs"
+    "catalogs",
+    "contracts",
+    "general",
+    "prisma",
+    "sections"
   ],
   "cSpell.language": "en,es-ES"
 }
