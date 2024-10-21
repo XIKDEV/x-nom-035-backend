@@ -28,6 +28,7 @@ export class CreateRoleDto {
     ],
   })
   name: string;
+
   @dtoDecorators({
     swaggerOptions: {
       example:
@@ -42,7 +43,7 @@ export class CreateRoleDto {
         typeDto: typeDto.isString,
         options: {
           message: dtoValidatorMessage.wrongTypeField(
-            fieldsDto.general.name,
+            fieldsDto.roles.description,
             dataType.string,
           ),
         },

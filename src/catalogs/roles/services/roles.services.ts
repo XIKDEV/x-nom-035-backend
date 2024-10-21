@@ -1,6 +1,8 @@
-import { baseResponse, handlerException } from '@/config';
 import { Injectable } from '@nestjs/common';
-import { CreateRoleDto } from '../dto/create-roles.dto';
+
+import { baseResponse, handlerException } from '@/config';
+
+import { CreateRoleDto } from '../dto';
 import { RolesPrismaService } from '../helpers';
 
 @Injectable()
@@ -11,11 +13,11 @@ export class RolesService {
     try {
       await this.rolesPrismaService.validateDuplicate(name);
 
-      const data = await this.rolesPrismaService.create({
+      await this.rolesPrismaService.create({
         name,
         description,
       });
-      return baseResponse({ data });
+      return baseResponse({});
     } catch (error) {
       return handlerException(error);
     }

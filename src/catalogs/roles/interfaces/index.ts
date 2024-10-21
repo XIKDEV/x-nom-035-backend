@@ -10,5 +10,4 @@ export type TRolesNotPropControls = Omit<
 export interface IRoles {
   name: string;
   description: string;
-  active: boolean;
 }

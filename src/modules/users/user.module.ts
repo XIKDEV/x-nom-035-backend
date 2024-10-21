@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 
 import { RolesModule } from '@/catalogs';
 import { PrismaModule } from '@/config';
@@ -12,7 +12,7 @@ import { UserService } from './services';
 @Module({
   imports: [
     PrismaModule,
-    RolesModule,
+    forwardRef(() => RolesModule),
     NodemailerModule,
     EnterprisesModule,
     BcryptModule,
