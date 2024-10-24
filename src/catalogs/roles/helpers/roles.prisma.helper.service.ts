@@ -2,6 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 
 import { ICatalogsAttributes, mappingCatalogs, PrismaService } from '@/config';
 
+import { UpdateRoleDto } from '../dto';
 import { CreateRoleDto } from '../dto/create-roles.dto';
 import { TRolesNotPropControls } from '../interfaces';
 import { roleMessages } from '../messages';
@@ -25,7 +26,7 @@ export class RolesPrismaService {
     return mappingRoles;
   }
 
-  async findById(id: number) {
+  async findByIdRol(id: number) {
     const role = await this.prismaService.roles.findUnique({
       where: {
         id,
@@ -39,7 +40,7 @@ export class RolesPrismaService {
     return role;
   }
 
-  async validateDuplicate(name: string): Promise<void> {
+  async validateDuplicateRol(name: string): Promise<void> {
     const roles = await this.prismaService.roles.findFirst({
       where: {
         name,
@@ -50,8 +51,33 @@ export class RolesPrismaService {
     }
   }
 
-  async create(data: CreateRoleDto) {
+  async createRol(data: CreateRoleDto) {
     const role = await this.prismaService.roles.create({ data });
     return { role };
+  }
+
+  async findAllRol() {
+    const role = await this.prismaService.roles.findMany();
+    return { role };
+  }
+
+  async updateRol(data: UpdateRoleDto) {
+    const role = await this.prismaService.roles.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        ...data,
+      },
+    });
+    return { role };
+  }
+
+  async deleteRol(id: number) {
+    return await this.prismaService.roles.delete({
+      where: {
+        id,
+      },
+    });
   }
 }
